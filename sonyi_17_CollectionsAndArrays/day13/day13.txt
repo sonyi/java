@@ -1,0 +1,67 @@
+java异常
+ 1、编译期间的异常
+ 2、运行期间的异常   ***
+
+ try{
+   //可能产生异常的语句；
+
+ }catch(异常类1 对象名) {
+
+   //异常处理
+ }catch(异常类2 对象名) {
+
+   //异常处理
+ }catch(异常类3 对象名) {
+
+   //异常处理
+ } finally{
+   //
+ }
+
+ 不管是try还是catch,最终都会在finally里面相见。
+
+ try catch finally 本身不能单独使用。
+
+ 异常类
+
+  1、error     
+  2、Exception - RuntimeException
+
+     异常处理信息：
+
+       getMessage( )方法，用来得到有关异常事件的信息。
+       printStackTrace( )方法，用来跟踪异常事件发生时执行堆栈的内容。
+
+
+  异常的关键字： 
+    1、throws   在方法定义中声明异常   
+
+       public void m1() throws Exception{
+
+       }
+ 
+    2、throw    在方法体抛出异常
+
+        public void m2(int a, int b) {
+          if(b==0) {
+            throw new Exception("描述信息");
+          }
+
+        }
+
+
+
+   自定义异常类
+
+     class MyException extends Exception {
+
+
+     }
+
+
+
+
+
+
+
+
