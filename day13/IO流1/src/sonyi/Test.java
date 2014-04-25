@@ -2,7 +2,6 @@ package sonyi;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -29,14 +28,22 @@ public class Test {
 				e.printStackTrace();
 			}
 		}
+		fileStream(fileOut, fileIn);
 		
+	}
+	
+	public static void fileStream(File fileOut,File fileIn){
 		FileInputStream fileInputStream = null;
 		FileOutputStream fileOutputStream = null;
-		String s = "sclsjd15s4faadf¿≤¿≤";
 		try {
 			fileOutputStream = new FileOutputStream(fileOut);
-			fileOutputStream.write(s.getBytes());
-			fileInputStream.read();
+			fileInputStream = new FileInputStream(fileIn);
+			byte[] temp = new byte[1024];
+			int len = 0;
+			while(len != -1){
+				len = fileInputStream.read(temp);
+				fileOutputStream.write(temp);
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,15 +52,11 @@ public class Test {
 		finally{
 			try {
 				fileOutputStream.close();
+				fileInputStream.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
-
 	}
-
 }
