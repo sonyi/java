@@ -145,8 +145,24 @@ InputStreamReader  是字节流通向字符流的桥梁
     int read();  读取单个字符。
     int read(char[] cbuf);  读取字符数组，返回的是长度。
 
+OutputStreamWriter
+
+   构造方法
+
+    OutputStreamWriter(OutputStream out) 
+     创建使用默认字符编码的 OutputStreamWriter。
+
+    OutputStreamWriter(OutputStream out, String charsetName) 
+     创建使用指定字符集的 OutputStreamWriter。
+
+   基本方法
+
+     write(int c) 写入单个字符。
+     write(char[] cbuf) 写入字符数组。
+     write(String str) 写入字符串。
 
 
+======================
   要求：
 
    1、把utf8.txt的内容写到gbk.txt
@@ -155,6 +171,50 @@ InputStreamReader  是字节流通向字符流的桥梁
       字节流通向字符流的桥梁
       字节流通向字符流的桥梁
    3、用gbk.txt的内容覆盖utf8.txt
+
+
+--------------------------------------------------
+数据流
+   DataInputStream
+
+   构造方法
+
+     DataInputStream(InputStream in) ；
+
+   基本方法
+
+     boolean readBoolean() 
+     byte readByte() 
+     double readDouble() 
+     float readFloat() 
+     int readInt() 
+     long readLong() 
+     short readShort() 
+     String readUTF() 
+
+  DataOutputStream
+
+   构造方法
+ 
+     DataOutputStream(OutputStream out) 
+
+   基本方法
+
+     boolean writeBoolean() 
+     byte writeByte() 
+     double writeDouble() 
+     float writeFloat() 
+     int writeInt() 
+     long writeLong() 
+     short writeShort() 
+     String writeUTF() 
+
+====================================
+   ByteArrayInputStream&ByteArrayOutputStream
+
+   PrintWriter
+
+   序列化和反序列化
 
 
 
