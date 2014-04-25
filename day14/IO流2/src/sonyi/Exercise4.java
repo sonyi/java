@@ -40,8 +40,10 @@ public class Exercise4 {
 			
 			String string = null;
 			while((string = bufferedReader.readLine()) != null){
-				System.out.println(string);
-				bufferedWriter.write(string + "\n");	
+				//System.out.println(string);
+				bufferedWriter.write(string);//返回的字符串不带换行符的
+				bufferedWriter.newLine();//换行
+			
 				bufferedWriter.flush();//刷新缓冲区，将信息传入到指定文件中
 			}	
 		} catch (Exception e) {

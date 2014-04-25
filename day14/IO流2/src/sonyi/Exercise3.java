@@ -29,8 +29,9 @@ public class Exercise3 {
 			
 			String string = null;
 			while((string = bufferedReader.readLine()) != null){
-				System.out.println(string);
-				bufferedWriter.write(string + "\n");	
+				//System.out.println(string);
+				bufferedWriter.write(string);
+				bufferedWriter.newLine();
 				bufferedWriter.flush();
 			}
 			
