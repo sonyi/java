@@ -1,0 +1,72 @@
+Collection 接口：
+
+ boolean add(E e) 
+          确保此 collection 包含指定的元素（可选操作）。 
+ boolean addAll(Collection<? extends E> c) 
+          将指定 collection 中的所有元素都添加到此 collection 中（可选操作）。 
+ void clear() 
+          移除此 collection 中的所有元素（可选操作）。 
+ boolean contains(Object o) 
+          如果此 collection 包含指定的元素，则返回 true。 
+ boolean containsAll(Collection<?> c) 
+          如果此 collection 包含指定 collection 中的所有元素，则返回 true。 
+ boolean isEmpty() 
+          如果此 collection 不包含元素，则返回 true。  
+ boolean remove(Object o) 
+          从此 collection 中移除指定元素的单个实例，如果存在的话（可选操作）。 
+ boolean removeAll(Collection<?> c) 
+          移除此 collection 中那些也包含在指定 collection 中的所有元素（可选操作）。 
+ int size() 
+          返回此 collection 中的元素数。 
+ Object[] toArray() 
+          返回包含此 collection 中所有元素的数组。 
+<T> T[] 
+ toArray(T[] a) 
+          返回包含此 collection 中所有元素的数组；返回数组的运行时类型与指定数组的运行时类型相同。 
+ Iterator<E> iterator() 
+          返回在此 collection 的元素上进行迭代的迭代器。
+
+
+
+ArrayList 接口
+
+   get(int index)  : Object    返回此列表中指定位置上的元素。
+
+   set(int index, Object newValue) : Object    返回被改的值
+
+   remove(int index) 
+          移除此列表中指定位置上的元素。
+
+
+LinkedList 接口
+
+   addFirst(E e) 
+          将指定元素插入此列表的开头。 
+   addLast(E e) 
+          将指定元素添加到此列表的结尾。 
+
+   getFirst() 
+          返回此列表的第一个元素。 
+   getLast() 
+          返回此列表的最后一个元素。 
+
+   removeFirst() 
+          移除并返回此列表的第一个元素。
+
+   removeLast() 
+          移除并返回此列表的最后一个元素。
+
+   pop() 
+          从此列表所表示的堆栈处弹出一个元素。 此方法等效于 removeFirst()。 
+
+   push(E e) 
+          将元素推入此列表所表示的堆栈。 此方法等效于 addFirst(E)。
+
+
+
+
+  
+
+
+
+   

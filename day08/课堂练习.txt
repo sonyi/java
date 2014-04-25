@@ -1,0 +1,114 @@
+1.分析学生管理系统涉及到学生类，声明该类。属性：学号、姓名、年龄、计算机成绩、数学成绩、英语成绩；
+  类变量学号最大值（或最后一个学生的学号），每次新建学生对象时，为其分配学号，学号等于学号最大值加1；实现计算平均成绩、总成绩的功能。 
+
+
+*类变量:静态变量
+*成员变量：对象变量
+
+class 学生类{
+
+  学号;//static
+  姓名;
+  年龄;
+  计算机成绩;
+  数学成绩;
+  英语成绩;
+
+  计算平均成绩();
+  计算总成绩();
+  
+}
+
+
+
+
+
+
+2.现在要求定义一个表示雇员的类，属性：雇员编号 eNo、姓名 eName、职位 eJob、基本工资 eSalary、奖金 eBonus；类变量雇员编号最大值（或最后一个雇员的编号），
+  每次新建雇员对象时，为其分配编号，编号等于编号最大值加1；要求可以取得一个雇员的完整信息，也可以求出一个雇员的月薪和年薪等信息。
+   
+  月薪 = 基本工资 + 奖金
+
+  年薪 = 月薪*12;
+
+
+  雇员的类  Employee 
+
+
+
+
+
+
+3、运行结果？？？
+public class Person{	
+	String name;
+	int age;
+  public Person(String name,int age){	
+	this.name=name;
+	this.age=age;
+  }
+  public static void main(String[]args){	
+	Person c=new Person("Peter",17);
+	System.out.println(c.name+" is "+c.age+" years old!");
+  }
+}
+
+
+4、填空
+
+class ______{
+      String name;
+      int age;
+      Student(______ name, int a){
+         _____.name=name;
+         age=a;
+      }
+}
+
+
+5、填空
+
+class ______{
+      String s;
+      ______ int a=3;
+      A(String s){
+         this.s=s;
+      }
+     static int getA(){
+   	return a;
+     }
+}
+
+
+
+6、编程题
+编写一个Java程序，并满足如下要求：
+	1）编写一个Car类，具有：
+		属性：品牌(mark)——String类型
+		功能：驾驶（void drive( )）
+	2）定义Car类的子类SubCar，具有：
+		属性：价格（price）、速度（speed）——int型
+		功能：变速（void speedChange(int newSpeed)），把新速度赋给speed
+	3）定义主类Test，在其main方法中创建SubCar类的两个对象：bmw和benchi的对象并测试其对象的特性。
+
+
+7、
+编写一个类Calculate1，实现加、减两种运算，然后，编写另一个派生类Calculate2，实现乘、除两种运算。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

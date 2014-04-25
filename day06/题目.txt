@@ -1,0 +1,27 @@
+
+1、新建一个Person类，
+
+  属性：name 姓名，sex 性别，age 年龄
+
+  方法：各自的get/set方法
+
+        打印方法 public void printMsg();
+
+2、新建一个Student类，继承Person类
+
+  属性：学号 no, 成绩 score
+
+  方法：各自的get/set方法
+
+        打印方法 public void printMsg();
+
+3、新建一个worker类，继承Person类
+
+  属性：工种 job, 工资 salary
+
+  方法：各自的get/set方法
+
+        打印方法 public void printMsg();
+
+4、建测试类，分别测试
+

@@ -1,0 +1,53 @@
+属性
+
+    private String name;
+
+    public String name;
+
+
+  权限修饰符  修饰符 返回类型 方法名(类型 变量1，类型 变量2，...，类型 变量n) {
+
+    
+     [return 返回值;]
+  }
+
+
+  权限修饰符:  public  private default  protected
+
+ 
+   public： 在同一个项目里面的任何地方都能访问到
+
+   private: 自己的类内部
+
+   default: 类内部以及同一个包里面可以访问
+
+   protected: 类内部/同一个包里面/子类可以访问
+
+
+   **继承关系当中，如果new 子类（）；那么肯定会先去初始化父类，然后再初始化子类本身。
+
+   类的祖先 是 Object
+
+   
+   toString() :  这个方法打印的是对象里面所对应的内容
+
+   toString() ： Object类的方法
+
+
+
+   ==   返回值：true/fase
+
+     1、用在基本类型当中，指值得比较  
+
+     2、用在引用类型当中，指地址的比较    数组、对象、String
+
+  
+  equals方法  返回值：true/fase
+
+    1、如果要比较引用类型的值，就要重写equals
+
+
+  instanceof  判断对象是否是类的实例化
+
+
+

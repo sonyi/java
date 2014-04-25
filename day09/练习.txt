@@ -1,0 +1,48 @@
+
+
+定义一个字符串 str = "a,b,c;d,e,f,g;h,i,j,k,l";  把此字符串拆分成一个二维数组的字符串，并打印出来
+
+格式如下(3行)： 用方法split()
+
+    a b c
+    d e f g
+    h i j k l
+
+   
+
+    String[] row = str.split(";");  //拆分行
+
+    row[0] = "a,b,c";   ==> String[] col = row[0].split(",");  //把行拆分成列
+
+    row[1] = "d,e,f,g";   ==> String[] col = row[1].split(",");
+
+    row[2] = "h,i,j,k,l";   ==> String[] col = row[2].split(",");
+
+
+    for(int i = 0; i<row.length; i++) { //行
+
+        String[] col = row[i].split(","); 
+        for(int j=0; j<col.length; j++) { //列
+          System.out.print(col[j] + " ");
+        }
+
+        System.out.println();
+    }
+
+-------------------------------------------------------------------------------
+
+     String[] row = str.split(";");  //拆分行
+     String[][] array = new String[row.length][];
+
+     array[0] = row[0].split(","); //new String[长度];
+     array[1] = row[1].split(",");
+     array[2] = row[2].split(",");
+
+     for(int i = 0; i<array.length; i++) { //行
+
+        for(int j=0; j<array[i].length; j++) { //列
+          System.out.print(array[i][j] + " ");
+        }
+
+        System.out.println();
+    }

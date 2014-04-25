@@ -1,0 +1,104 @@
+Collection 与 Collections 的区别？
+
+---
+
+
+
+
+
+Map 
+
+Itarator
+
+Comparator  /  Comparable  容器排序
+
+
+
+Map
+
+   put(K key, V value) 
+          将指定的值与此映射中的指定键关联（可选操作）。
+
+   V get(Object key) 
+          返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回 null。 
+
+   remove(Object key) 
+          如果存在一个键的映射关系，则将其从此映射中移除（可选操作）。
+
+   isEmpty() 
+          如果此映射未包含键-值映射关系，则返回 true。
+
+   boolean containsKey(Object key) 
+          如果此映射包含指定键的映射关系，则返回 true。 
+
+   boolean containsValue(Object value) 
+          如果此映射将一个或多个键映射到指定值，则返回 true。 
+
+   int size() 
+          返回此映射中的键-值映射关系数。 
+
+   keySet() 
+          返回此映射中包含的键的 Set 视图。
+
+   
+
+   Collection<V> values() 
+          返回此映射中包含的值的 Collection 视图。 
+
+
+
+
+
+  遍历
+ 
+    1、Iterator
+
+       hasNext();    --boolean类型，判断右边是否有值
+
+       next();       --取值，移动游标
+
+       remove();     --删除内容
+
+    2、增强for
+
+       for(类型 变量名：容器) {
+
+
+       }
+
+
+  排序
+
+    1、Arrays.sort()
+
+    2、Collections.sort();
+
+    Comparator  /  Comparable  容器排序
+
+    
+    sort(List<T> list) 
+          根据元素的自然顺序 对指定列表按升序进行排序。  
+
+    class 实现类  implements Comparable{
+
+    }
+
+
+ 
+
+    sort(List<T> list, Comparator<? super T> c) 
+          根据指定比较器产生的顺序对指定列表进行排序。 
+
+    class 实现类 implements Comparator<Person> {
+
+
+
+    }
+
+
+
+
+
+
+
+

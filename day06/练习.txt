@@ -1,0 +1,32 @@
+
+
+1、新建一个 Company 类,
+
+   属性：姓名 cName (String类型)，性别 cSex (char), 工资 cSalary (double)
+
+   方法：getCName(), setCName(String cName), 
+
+         getCSex(), setCSex(char cSex), 
+
+         getCSalary(), setCSalary(double cSalary)
+
+          public void printMsg() 
+
+2、新建一个 Dept 类继承 Company,
+
+   属性：技能 skill (String)   ---技能可以分为 前端、后端、数据库等方面
+
+   方法： public void printMsg();  //要求打印这个部门的人员所有信息
+
+     public Dept(){}
+     public Dept(String cName, char cSex, double cSalary, String skill) {}
+
+3、新建一个 Manage 类继承 Dept,
+
+   属性：职位 positon  
+
+   方法： public void printMsg();  //要求打印这个部门的人员所有信息
+
+4、新建一个测试类 Test，
+
+   实例化1个Company对象，实例化1个Dept对象， 实例化2个Manage对象，分别打印他们各自的全部信息

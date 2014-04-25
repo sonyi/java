@@ -1,0 +1,49 @@
+java.io.File
+
+  File(String pathname) 
+    通过将给定路径名字符串转换为抽象路径名来创建一个新 File 实例。   exists() 
+          测试此抽象路径名表示的文件或目录是否存在。
+
+  createNewFile() 
+          当且仅当不存在具有此抽象路径名指定名称的文件时，不可分地创建一个新的空文件。
+
+
+  delete() 
+          删除此抽象路径名表示的文件或目录。    
+
+
+
+
+IO流  java.io.*
+
+   基础流：二进制流
+
+   字节流
+
+      输入流 InputStream 和输出流 OutputStream
+
+   字符流
+
+      输入流 Reader  和输出流  Writer
+
+
+FileInputStream类
+
+   FileInputStream(File file) ；
+
+   FileInputStream(String name) ；
+
+
+   //读取一个字节并以整数的形式返回(0~255),
+   //如果返回-1已到输入流的末尾。
+   int read() throws IOException
+
+   //读取一系列字节并存储到一个数组buffer，
+   //返回实际读取的字节数，如果读取前已到输入流的末尾返回-1
+   int read(byte[] buffer) throws IOException
+
+   //关闭流释放内存资源
+   void close() throws IOException
+
+   
+
