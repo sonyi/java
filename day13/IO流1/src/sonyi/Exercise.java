@@ -1,12 +1,13 @@
 package sonyi;
 
+//×Ö½ÚÁ÷Á·Ï°
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Test {
+public class Exercise {
 
 	public static void main(String[] args) {
 		File fileOut = new File("test/textOut.txt");
@@ -29,31 +30,43 @@ public class Test {
 				e.printStackTrace();
 			}
 		}
+		fileStream(fileOut, fileIn);
 		
+	}
+	
+	public static void fileStream(File fileOut,File fileIn){
 		FileInputStream fileInputStream = null;
 		FileOutputStream fileOutputStream = null;
-		String s = "sclsjd15s4faadfÀ²À²";
 		try {
 			fileOutputStream = new FileOutputStream(fileOut);
-			fileOutputStream.write(s.getBytes());
-			fileInputStream.read();
+			fileInputStream = new FileInputStream(fileIn);
+			byte[] temp = new byte[1024];
+			int len = 0;
+			while(len != -1){
+				len = fileInputStream.read(temp);
+				fileOutputStream.write(temp);
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally{
-			try {
-				fileOutputStream.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			if(fileInputStream != null)
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(fileOutputStream != null)
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 		}
-		
-		
-		
-
 	}
-
 }
