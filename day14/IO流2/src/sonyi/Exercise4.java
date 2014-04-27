@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-
 public class Exercise4 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

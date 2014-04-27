@@ -25,8 +25,5 @@ public class FileWriterDemo2 {
 				e.printStackTrace();
 			}
 		}
-		
-
 	}
-
 }

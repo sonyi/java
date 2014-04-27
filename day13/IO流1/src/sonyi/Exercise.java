@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Exercise {
-
 	public static void main(String[] args) {
 		File fileOut = new File("test/textOut.txt");
 		File fileIn = new File("test/textIn.txt");
@@ -65,8 +64,7 @@ public class Exercise {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-			
+				}		
 		}
 	}
 }

@@ -1,0 +1,6 @@
+#heheh
+#Sun Apr 27 09:40:31 CST 2014
+hahah=47
+zhangsan=39
+lisi=41
+wangwu=15

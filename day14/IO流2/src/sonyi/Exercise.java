@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 //×Ö·ûÁ÷Á·Ï°
 public class Exercise {
 
@@ -62,8 +61,6 @@ public class Exercise {
 					e.printStackTrace();
 				}
 			}
-		}
-		
+		}	
 	}
-
 }
