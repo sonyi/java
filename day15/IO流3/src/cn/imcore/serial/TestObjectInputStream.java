@@ -76,11 +76,7 @@ public class TestObjectInputStream {
 			}
 		}
 	}
-	
 }
-
-
-
 
 
 
