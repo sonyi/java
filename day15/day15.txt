@@ -1,0 +1,90 @@
+IO流
+
+  流的方向：输入流和输出流
+
+  流的单位：字节流和字符流
+
+节点流
+
+  InputStream / OutputStream  字节流
+
+   InputStream is = new FileInputStream(文件路径);
+
+   读的基本方法：
+
+   int read(); //读取单个字节，以整数形式返回
+ 
+   int read(byte[] buf); //返回的是读取长度，实际内容存在 数组buf中
+
+   写的基本方法：
+
+   write(int b);
+   
+   write(byte[] buf);//
+
+
+  Reader / Writer  字符流
+
+   Reader r = new FileReader(文件路径);
+
+   读的基本方法：
+
+   int read();//读取当个字符
+   
+   int read(char[] cbuf);
+
+   写的基本方法：
+
+   write(char c);
+
+   write(char[] cbuf);
+
+   write(String s);
+
+处理流
+
+  BufferedInputStream / BufferedOutputStream
+  
+  BufferedInputStream bis = new BufferedInputStream(InputStream in);
+
+  BufferedReader br = new BufferedReader(Reader in);
+
+
+转换流
+
+打印流
+
+对象流
+
+   1、序列化：将对象转成字节流   ObjectOutputStream
+   2、反序列化：将字节流转成对象 ObjectInputStream
+
+  序列化
+
+    writeInt();
+    ...
+    writeObject(Object obj);
+
+  反序列化
+
+    int readInt();
+    ...
+    Object readObject(); //
+
+  序列化接口：
+   
+    Serializable
+
+    关键字 transient  忽略序列化动作
+
+容器
+
+   Set : HashSet / TreeSet
+
+   List : ArrayList / LinkedList /Vector
+
+   Map : HashMap / TreeMap
+
+
+
+
