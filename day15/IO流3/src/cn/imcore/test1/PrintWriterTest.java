@@ -55,10 +55,8 @@ public class PrintWriterTest {
 	}
 	
 	public void print1() {
-		
 		PrintStream ps = System.out;
 		ps.print('»À');		
 		
 	}
-
 }
