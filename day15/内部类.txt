@@ -1,0 +1,89 @@
+1.成员内部类
+
+  class A {
+    int a; //成员变量
+    class Inner1{ //成员内部类
+      属性；
+      方法();
+
+    }
+
+  }
+
+  当内部类的变量与外部类的变量重名时，如何访问外部变量？？？
+   ---外部类的类名.this.成员变量
+
+  在main方法当中如何创建成员内部类？？?
+   ---
+    Test1 t1 = new Test1();
+    Test1.Inner1 inner = t1.new Inner1(3);
+
+  举例：Test1.java
+
+
+2.局部内部类
+
+  class A {
+     public void m1() {
+       final int a = 1;
+       class Inner2 {//方法内部类
+          ...
+       }
+
+       Inner2 inner = new Inner2();//创建局部内部类对象
+     }
+
+  }
+
+   访问方法的变量有什么要求？？？
+
+    --局部内部类不能方位方法里面的非final变量。
+
+3.静态内部类
+
+   class A {
+      static Inner3 {
+        属性;
+        方法();
+
+      }
+
+      public static void main(String[] args) {
+         //创建静态内部类对象
+         A.Inner3 inner = new A.Inner3();
+         
+      }
+   }
+
+
+   静态内部类只能访问外部类当中的哪些？？？
+    ---不能访问外部类的非静态成员
+
+   成员指属性和方法。
+
+
+
+4.匿名内部类
+
+   interface A{
+      public void sing();
+   }
+
+   class B {
+
+     public static void main(String[] args) {
+        A a = new A(){
+           public void sing() {
+
+           }
+        };
+
+        a.sing();//
+     }
+   }
+
+
+
+
+
+
