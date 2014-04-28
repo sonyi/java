@@ -27,7 +27,5 @@ public class TestPrintWriter2 {
 				pw.close();
 			}
 		}
-
 	}
-
 }

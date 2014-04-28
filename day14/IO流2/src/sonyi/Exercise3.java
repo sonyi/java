@@ -36,7 +36,6 @@ public class Exercise3 {
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally{
@@ -44,17 +43,14 @@ public class Exercise3 {
 				try {
 					bufferedReader.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			if(bufferedWriter != null)
 				try {
 					bufferedWriter.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
 	}
-
 }
