@@ -17,6 +17,7 @@ public class SerializeDemo {
 	}
 	
 	//∑¥–Ú¡–ªØ
+	@SuppressWarnings("unchecked")
 	public static void read(){
 		ObjectInputStream ois = null;
 		try {

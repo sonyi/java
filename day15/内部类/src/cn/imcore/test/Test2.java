@@ -20,7 +20,7 @@ public class Test2 {
 				System.out.println("c:" + c);
 				System.out.println("a:" + a);
 				System.out.println("b:" + b);
-				m1();//
+				m1();//调用外部方法
 			}
 		}	
 		Inner2 inner = new Inner2();//创建局部内部类对象

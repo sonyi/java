@@ -1,4 +1,7 @@
 package cn.imcore.test;
+
+import java.io.PrintWriter;
+
 /**
  * 成员内部类
  */
@@ -17,12 +20,13 @@ public class Test1 {
 		Inner1(int c) {
 			this.c = c;
 		}
-
+		
 		public void print(){
 			System.out.println("c:" + c);
 			System.out.println("a:" + a);
 			System.out.println("a:" + Test1.this.a);
 			System.out.println("访问外部类的静态变量：" + b);
+			Test1.this.print();//外部类方法
 		}	
 	}
 

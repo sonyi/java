@@ -1005,6 +1005,10 @@ WebStart：可在网络传输，并且在本地无限制。因此前景光明。
 使用Swing实现一个界面，分为上下两个部分，南边为JtextField组件，可编辑，上面为JtextArea组件，不可编辑，在JtextField组件输入字符，按回车，就可以将内容输入到JtextArea组件。(AREA区域可以滚动)
 
 12.07
+
+
+-------------------------------多线程-----------------------------------------------------
+
 多线程
 进程：任务
 任务并发执行是一个宏观概念，微观上是串行的。
@@ -1142,6 +1146,15 @@ suspend（）是将一个运行时状态进入阻塞状态（注意不释放锁标记）。恢复状态的时候用r
 
 补充说明：通过Synchronized，可知Vector较ArrayList方法的区别就是Vector所有的方法都有Synchronized。所以Vector更为安全。
 同样：Hashtable较HashMap也是如此。
+
+
+
+
+
+
+
+
+
 12.08
 Module 10：I/O流（java如何实现与外界数据的交流）
 Input/Output：指跨越出了JVM的边界，与外界数据的源头或者目标数据源进行数据交换。
@@ -1277,6 +1290,17 @@ Serialver TestObject（TestObject必须为已经编译）
 java.until.*有
 StringTokenizer（参数1，参数2）按某种符号隔开文件
 StringTokenizer(s,”:”) 用“：”隔开字符，s为对象。
+
+
+
+
+
+
+
+
+
+
+
 
 练习：将一个类序列化到文件，然后读出。下午：
 1、	网络基础知识
