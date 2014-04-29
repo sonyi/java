@@ -21,7 +21,7 @@ public class TestYield extends Thread{
 		t1.start();
 		t2.start();
 		
-		Thread.yield();
+		t1.yield();
 		
 //		Thread.currentThread().yield();
 		int k = 50;

@@ -26,7 +26,7 @@ class Ticket2 implements Runnable{
 			if(ticket==0) break;
 			System.out.println(Thread.currentThread().getName() + ":" + ticket--);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
