@@ -12,16 +12,17 @@ import java.util.ArrayList;
 public class SerializeDemo {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		write();
-		read();
+		write();//写
+		read();//读
 	}
 	
+	//反序列化
 	public static void read(){
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream("obj.txt"));
 			ArrayList<Person> arr = (ArrayList<Person>)ois.readObject();
-			for(Person p:arr){
+			for(Person p:arr){//按顺序读取对象
 				System.out.println(p);
 			}
 		} catch (FileNotFoundException e) {
@@ -42,16 +43,17 @@ public class SerializeDemo {
 		}
 	}
 	
+	//序列化
 	public static void write(){
 		ObjectOutputStream oos = null;
-		ArrayList<Person> arr = new ArrayList<Person>();
+		ArrayList<Person> arr = new ArrayList<Person>();//创建容器装对象
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream("obj.txt"));
 			arr.add(new Person("zhangsan", 25));
 			arr.add(new Person("lisi", 26));
 			arr.add(new Person("wangwu", 27));
 			
-			oos.writeObject(arr);	
+			oos.writeObject(arr);//将容器作为对象传递给流	
 			//System.out.println(oos);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -98,5 +100,4 @@ class Person implements Serializable{
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
 }
