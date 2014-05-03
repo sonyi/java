@@ -1,0 +1,5 @@
+Git users the concept of a hierarchical configuration.
+I.e. there are multiple levels; settings in higher levels override values in lower levels.
+The "Effective" tab shows you the effective values for the current scope(read-only).
+Select any level to see the values stored there.
+In order to change settings select a level,enter the values and select where to store to.
