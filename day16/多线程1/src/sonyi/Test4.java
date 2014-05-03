@@ -6,10 +6,10 @@ public class Test4 {
 		Student s1 = new Student("张三");
 		Student s2 = new Student("李四");
 		Student s3 = new Student("王五");
-		new teacher(s1).start();
-		new teacher(s2).start();
-		new teacher(s3).start();
-		
+		Teacher t = new Teacher();
+		s1.ask(t);
+		s2.ask(t);
+		s3.ask(t);
 	}
 }
 
@@ -18,8 +18,9 @@ class Student{
 	public Student(String name) {
 		this.name = name;
 	}
-	public void ask(){
-		System.out.println("学生" + name + "问老师该做什么？");
+	public void ask(Teacher t){
+		System.out.println(name + "问老师该做什么？");
+		t.answer(this);
 	}
 	
 	public void study(){
@@ -40,36 +41,36 @@ class Student{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
+	}	
 }
 
-class teacher extends Thread{
+class Teacher extends Thread{
 	private Student student;
-	teacher(Student student){
+	public static Object o = new Object();
+	Teacher(Student student){
 		this.student = student;
+	}
+	public Teacher() {
+		
 	}
 	
 	public void run(){
-		
-		try {
-			student.ask();
-			//Thread.sleep(1000);
-			answer();
-			//Thread.sleep(1000);
-			student.study();
-			Thread.sleep(1000);
-			student.doHomework();
-			//Thread.sleep(1000);
-			student.goToSleep();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		synchronized (o) {
+			try {
+				student.study();
+				Thread.sleep(1000);
+				student.doHomework();
+				//Thread.sleep(1000);
+				student.goToSleep();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
-		
-	}
-	public void answer(){
-		System.out.println("老师回答:" + student.getName() + "要开始学习，并做家庭作业");
 	}
 	
+	public void answer(Student student){
+		System.out.println("老师回答:" + student.getName() + "要开始学习，并做家庭作业");
+		new Teacher(student).start();
+	}
 }
