@@ -1,0 +1,4 @@
+Student [name=王五, math=98.0, chinese=87.0, english=89.0]	274.0
+Student [name=赵六, math=85.0, chinese=78.0, english=96.0]	259.0
+Student [name=李四, math=98.0, chinese=78.0, english=69.0]	245.0
+Student [name=张三, math=98.0, chinese=87.0, english=54.0]	239.0
