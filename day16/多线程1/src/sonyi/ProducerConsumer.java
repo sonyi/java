@@ -1,6 +1,6 @@
 package sonyi;
 
-/*@author shijin  
+/* 
 * 生产者与消费者模型中，要保证以下几点：  
 * 1 同一时间内只能有一个生产者生产     生产方法加锁sychronized  
 * 2 同一时间内只能有一个消费者消费     消费方法加锁sychronized  
@@ -32,7 +32,7 @@ class  ProducerConsumer
     }  
 }  
  
-//  
+//产品类  
 class Mantou  
 {  
     private int id;  
@@ -46,7 +46,7 @@ class Mantou
     }  
 }  
  
-//共享栈空间  
+//产品仓库 
 class StackBasket  
 {  
     Mantou sm[] = new Mantou[6];  
@@ -107,16 +107,13 @@ class StackBasket
     }  
 }  
  
+//生产类
 class Producer implements Runnable  
 {  
     StackBasket ss = new StackBasket();  
     Producer(StackBasket ss){  
         this.ss = ss;  
-    }  
- 
-    /**   
-    * show 生产进程.   
-    */   
+    }    
     public void run(){  
         for(int i = 1;i <= 20;i++){  
             Mantou m = new Mantou(i);  
@@ -132,6 +129,7 @@ class Producer implements Runnable
     }  
 }  
  
+//消费类
 class Consumer implements Runnable  
 {  
     StackBasket ss = new StackBasket();  
@@ -143,7 +141,8 @@ class Consumer implements Runnable
     * show 消费进程.  
     */   
     public void run(){  
-        while(ss.index != 0){  
+    	 //《--问题--》当生产还没结束而消费已经将仓库内产品消费光时，消费线程(循环)就退出，当生产线程将仓库填满时就一直处于等待状态，没办法结束
+        while(ss.index != 0){ 
             ss.pop();  
 //          System.out.println("消费了：---------" + m + " 共" + ss.index + "个馒头");  
 //  同上在上面一行进行测试也是不妥的，对index的访问应该在原子操作里，因为可能在pop之后此输出之前又生产了，会产生输出混乱  
