@@ -1,30 +1,23 @@
 package cn.imcore.test;
-
+//多窗口卖票系统
 public class TestTicket {
-
-	public static void main(String[] args) {
-//		Ticket1 win1 = new Ticket1();
-//		Ticket1 win2 = new Ticket1();
-//		Ticket1 win3 = new Ticket1();
-//
-//		win1.start();
-//		win2.start();
-//		win3.start();
-		
+	public static void main(String[] args) {		
 		Ticket2 ticket = new Ticket2();
 		new Thread(ticket, "窗口1").start();
 		new Thread(ticket, "窗口2").start();
 		new Thread(ticket, "窗口3").start();
 	}
-
 }
 
 class Ticket2 implements Runnable{
-	int ticket = 5;
+	int ticket = 100;
 	public void run() {
 		while(true) {
-			if(ticket==0) break;
-			System.out.println(Thread.currentThread().getName() + ":" + ticket--);
+			synchronized (this) {
+				if(ticket==0) 
+					break;
+				System.out.println(Thread.currentThread().getName() + ":卖出第" + (ticket--) + "张票");
+			}			
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -33,16 +26,4 @@ class Ticket2 implements Runnable{
 			}
 		}
 	}
-	
-}
-
-class Ticket1 extends Thread{
-	int ticket = 5;
-	public void run() {
-		while(true) {
-			if(ticket==0) break;
-			System.out.println(Thread.currentThread().getName() + ":" + ticket--);
-		}
-	}
-	
 }

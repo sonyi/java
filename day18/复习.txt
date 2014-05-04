@@ -1,0 +1,237 @@
+IO流
+
+   节点流： 字节流和字符流
+
+   处理流： 字节缓存流、字符缓存流、转换流
+
+   打印流 PrintWriter
+
+         PrintStream = System.out;
+
+   序列化
+
+   read()
+
+   write()
+
+   字节输入流 InputStream in = new FileInputStream(文件);
+
+      read() : int     
+           以整数形式返回单个字节
+
+      read(byte[] cbuf) : int    
+           返回的是读取的实际长度，真正的内容放在字节数组里面
+
+   字节输出流 OutputStream out = new FileOutputStream(文件);  
+
+      write() : int  写人单个字节
+
+      write(byte[] cbuf)   写入字节数组
+
+   字符输入流 Reader r = new FileReader(文件);
+
+      read() : int   
+           以整数形式返回单个字符
+
+      read(char[] cbuf) : int
+           返回的是读取的实际长度，真正的内容放在字符数组里面
+ 
+   字符输出流 Writer w = new FileWriter(文件);
+
+      write(int b);  写人单个字符
+ 
+      write(char[] cbuf);  写人字符数组
+
+      write(String s);  写人字符串
+
+
+   字节输入缓存流  BufferedInputStream bis
+                = new BufferedInputStream(new FileInputStream(File f));
+    ---读写方式与字节流一样
+
+   字节输出缓存流  BufferedOutputStream bos
+              = new BufferedOutputStream(new FileOutputStream(File f));
+    ---读写方式与字节流一样
+
+    字符输入缓存流 BufferedReader br
+             = new BufferedReader(new FileReader(File f));
+    ---除了跟字符流的读写一样之外，还多了一个功能
+       readLine() : String   按行读取
+ 
+    字符输出缓存流 BufferedWriter bw 
+             = new BufferedWriter(new FileWriter(File f));
+    ---除了跟字符流的读写一样之外，还多了一个功能
+       newLine();   换行
+
+
+    节点流与缓存流有什么区别？？
+      --缓存流 读取速度快
+
+    转换流（字节流转换字符流，就要考虑编码问题）
+      --  utf-8  utf-16  gbk
+
+      InputStreamReader isr 
+         = new InputStreamReader(new FileInputStream(File f),"uft-8");
+      --跟字符流的读写一样
+       
+      OutputStreamWriter osw
+        = new OutputStreamWriter(new FileOutputStream(File,f),"utf-8");
+      --跟字符流的读写一样
+
+
+    打印流
+
+       new PrintWriter(File f, true);   //打印到文件
+       new PrintWriter(OutputStream os, true) ;  //送到字节输出流
+       new PrintWriter(Writer w, true) ;   //送到字符输出流
+
+      方法：
+        print(内容);       //没有换行
+        println(内容);     //带有换行
+
+    序列化和反序列化（对象流）
+
+       序列化：将对象转成字节流     ObjectOutputStream
+       反序列化：将字节流转成对象    ObjectInputStream
+
+       对象序列化要满足什么条件？
+          --对象所对应的类必须实现序列化接口  Serializable
+          --如果某个字段不想被序列化  transient
+                
+       增强for
+
+           for(类型 变量名：容器) {
+
+           }
+
+
+内部类
+
+    1.成员内部类
+    2.局部内部类
+    3.静态内部类
+    4.匿名内部类
+
+    
+    class A {
+        class A1{ //成员内部类
+
+        }
+
+    }
+
+    
+    class B {
+      public void m1() {
+         //这里定义的变量必须是final
+         class B1 {  //局部内部类
+
+         }
+
+      }
+
+    }
+
+
+    class C {
+       static class C1 {
+         //静态内部类只能访问外部的静态成员
+
+       }
+
+    }
+
+   
+    class D {
+       interface Sing {//接口
+          public void sing();
+       }
+
+       public static void main(String[] args) {
+           Sing s = new Sing(){
+              public void sing() {
+                //实现方法
+              }
+           };
+
+       }
+
+    }
+
+
+多线程
+
+    通过Thread类实现
+
+    线程体
+       public void run() {
+
+       }
+
+    线程启动: 通过调用start();
+
+    线程有几种实现方式：
+
+      1.继承Thread
+
+      2.实现接口Runnable
+
+      class MyThread extends Thread{
+         public void run() {
+
+         }
+
+      }
+
+      //创建线程
+      MyThread my = new MyThread();
+      //启动线程
+      my.start();
+
+
+
+      class MyThread implements Runnable {
+
+         public void run() {
+
+         }
+      }
+
+      //创建线程
+      MyThread my = new MyThread();//创建Runnable对象
+      Thread t = new Thread(my); //创建线程
+      //线程启动
+      t.start();
+
+      举例： 比赛、售票
+
+      线程有哪些状态？？
+      --创建-》就绪状态-》运行状态-》结束
+
+                          阻塞
+                      sleep join yield wait
+
+      线程同步
+       1.同步方法
+       2.同步代码块
+       注意：锁定的是对象  synchronized
+
+      wait和sleep有什么区别？
+      --sleep任何地方都可以用，没有释放锁
+        wait必须在同步里面，而且需要通过notify/notifyAll来唤醒，释放锁
+
+      举例：ATM  生产者和消费者
+
+
+
+      
+     
+
+
+
+
+
+
+
+
+

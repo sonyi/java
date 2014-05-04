@@ -29,9 +29,11 @@ public class CopyMP3 {
 		try {
 			bis = new BufferedInputStream(new FileInputStream("exercise/01.mp3"));
 			bos = new BufferedOutputStream(new FileOutputStream("exercise/02.mp3"));
-			int by = 0;
-			while((by = bis.read()) != -1){
-				bos.write(by);
+			int len = 0;
+			byte[] buf = new byte[1024];
+			while((len = bis.read(buf)) != -1){
+				//System.out.println(new String(buf));
+				bos.write(buf,0,len);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -52,8 +54,6 @@ public class CopyMP3 {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
+		}	
 	}
-
 }
