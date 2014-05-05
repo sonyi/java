@@ -1,0 +1,6 @@
+cn.itcast.snake.controller
+cn.itcast.snake.entities
+cn.itcast.snake.game
+cn.itcast.snake.listener
+cn.itcast.snake.util
+cn.itcast.snake.view
