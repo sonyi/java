@@ -9,13 +9,14 @@ package url;
 	String getQuery()获取此 URL 的查询部分。
 
  */
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class URLDemo {
-	public static void main(String[] args) throws MalformedURLException {
-		//URL url = new URL("http://192.168.188.1:8080/myapp/index.jsp?name=haha&age=32");
-		URL url = new URL("http://www.baidu.com");
+	public static void main(String[] args) throws IOException {
+		URL url = new URL("http://192.168.188.1:8080/myapp/index.jsp?name=haha&age=32");
+		//URL url = new URL("http://www.baidu.com");
 		System.out.println("协议名称: " + url.getProtocol());
 		System.out.println("主机名: " + url.getHost());
 		System.out.println("端口号: " + url.getPort());
@@ -23,9 +24,13 @@ public class URLDemo {
 		System.out.println("文件名: " + url.getFile());
 		System.out.println("查询部分: " + url.getQuery());
 		
+		URLConnection conn = url.openConnection();
+		System.out.println(conn);
+		System.out.println("主机名: " + url.getHost());
+		
 //		int port = getPort();
 //		if(port == -1)
-//			port = 80;
+//			port = 80;//默认端口
 		
 	}
 }

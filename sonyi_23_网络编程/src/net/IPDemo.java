@@ -47,8 +47,6 @@ public class IPDemo {
 		
 		Inet4Address ib = (Inet4Address) Inet4Address.getByName("www.baidu.com");
 		System.out.println("name: " + ib.getHostName());
-		System.out.println("address: " + ib.getHostAddress());
-		
+		System.out.println("address: " + ib.getHostAddress());		
 	}
-
 }

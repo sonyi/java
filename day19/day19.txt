@@ -1,0 +1,61 @@
+C/S  B/S
+
+IPV4  IPV6
+
+端口号  0-65536
+
+本机地址  127.0.0.1   localhost
+
+网络编程的包 java.net.*
+
+套接字  
+
+ IP:
+
+   java.net.Socket  客户端
+
+   java.net.ServerSocket  服务器端
+
+ UDP:
+
+   DatagramSocket
+
+
+  
+Socket 客户端套接字
+
+   提供了输入流和输出流
+
+构造方法：
+
+Socket(InetAddress address, int port) 
+     创建一个流套接字并将其连接到指定 IP 地址的指定端口号。
+
+基本方法：
+
+getInetAddress() 
+          返回套接字连接的地址。
+
+getInputStream() 
+          返回此套接字的输入流。
+
+getOutputStream() 
+          返回此套接字的输出流。
+
+
+SeverSocket 服务器端套接字
+
+构造方法：
+
+ServerSocket(int port) 
+          创建绑定到特定端口的服务器套接字。
+
+Socket accept() 
+          侦听并接受到此套接字的连接。   
+
+close()  关闭此套接字。
+
+
+
+
+   
