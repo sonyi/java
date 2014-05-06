@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+//练习：将文件上传至服务端，并返回是否上传成功。
 public class TestServer {
 	public static void main(String[] args) throws IOException {
 		ServerSocket ss = new ServerSocket(10006);

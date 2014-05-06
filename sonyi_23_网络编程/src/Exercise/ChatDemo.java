@@ -50,7 +50,6 @@ class Receive implements Runnable{
 			}
 		}
 	}
-	
 }
 
 class Send implements Runnable{
