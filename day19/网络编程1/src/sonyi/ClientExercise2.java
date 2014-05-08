@@ -4,6 +4,9 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.TextArea;
 import java.awt.TextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -15,10 +18,12 @@ import java.util.Scanner;
 
 public class ClientExercise2 {
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		//Socket s = new Socket("192.168.1.106",20001);	
-		//new Thread(new ReadClientThread(s)).start();
-		//new Thread(new WriteClientThread(s)).start();	
 		new FrameDemo();
+		Socket s = new Socket("127.0.0.1",20001);	
+		
+		new Thread(new ReadClientThread(s)).start();
+		new Thread(new WriteClientThread(s)).start();	
+		
 	}
 }
 
@@ -36,7 +41,9 @@ class ReadClientThread implements Runnable{
 				byte[] buf = new byte[1024];
 				int len = isIn.read(buf);
 				String line = new String(buf,0,len);
-				System.out.println(line);	
+				
+				FrameDemo.tAreaUp.append(line);
+				//System.out.println(Utils.getInString);	
 			}
 			
 		} catch (IOException e) {
@@ -47,9 +54,7 @@ class ReadClientThread implements Runnable{
 
 
 class WriteClientThread implements Runnable{
-	private static int index = 1;
 	private Socket s;
-	Scanner input = new Scanner(System.in);
 	WriteClientThread(Socket s){
 		this.s = s;
 	}
@@ -57,15 +62,17 @@ class WriteClientThread implements Runnable{
 	@Override
 	public void run() {
 		try {
-			int i = index++;
 			OutputStream osOut = s.getOutputStream();
-			while(true){			
-				String line = input.nextLine();
-				if ("over".equals(line)) {
-					System.exit(0);
+			while(true){		
+				Thread.currentThread().setName("客户端");
+				String line = Utils.getOutString;
+				if(line != null){
+					osOut.write((Thread.currentThread().getName() + line).getBytes());
+					if ("over".equals(line)) {
+						System.exit(0);
+					}
 				}
-				Thread.currentThread().setName("客户端" + i);
-				osOut.write((Thread.currentThread().getName() + line).getBytes());
+				
 			}		
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -73,10 +80,16 @@ class WriteClientThread implements Runnable{
 	}	
 }
 
+class Utils{
+	public static String getInString = null;
+	public static String getOutString = null;
+	
+}
+
 class FrameDemo {
 	private Frame frame;
-	private TextArea tAreaUp, tAreaDown;
-	private TextField tField;
+	public static TextArea tAreaUp;
+	private TextArea tAreaDown;	
 	public FrameDemo() {
 		init();
 	}
@@ -100,6 +113,17 @@ class FrameDemo {
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
 			}
+		});            
+		tAreaDown.addKeyListener(new KeyAdapter() {
+				@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					Utils.getOutString = tAreaDown.getText();
+					tAreaDown.setText("");
+					Utils.getOutString = null;
+				}
+			}
 		});
+		
 	}
 }

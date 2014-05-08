@@ -12,7 +12,7 @@ public class ServerExercise2 {
 	public static void main(String[] args) throws IOException {
 		ServerSocket ss = new ServerSocket(20001);
 		ArrayList<Socket> userList = new ArrayList<Socket>();
-		new Thread(new WriteServerThread(userList)).start();
+		//new Thread(new WriteServerThread(userList)).start();
 		while (true) {
 			Socket s = ss.accept();
 			userList.add(s);
@@ -44,8 +44,8 @@ class ReadThread implements Runnable{
 				System.out.println(line);
 				
 				for(Socket s : userList){
-					if(socket==s)
-						continue;
+//					if(socket==s)
+//						continue;
 					OutputStream osOut = s.getOutputStream();
 					osOut.write((line).getBytes());
 				}

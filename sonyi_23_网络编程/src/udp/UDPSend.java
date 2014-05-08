@@ -16,7 +16,7 @@ import java.net.InetAddress;
 		2、提供数据，并将数据封装到数据包中。
 		3、通过Socket服务的发送功能，将数据包发出去
 		4、关闭资源。
- */
+ */ 
 public class UDPSend {
 
 	public static void main(String[] args) throws IOException {
