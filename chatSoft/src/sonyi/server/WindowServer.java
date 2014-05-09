@@ -1,6 +1,13 @@
 package sonyi.server;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,15 +15,23 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 
 public class WindowServer {
+	public static JTextArea textMessage;
+	JButton startButton;
+	JButton send;
+	JTextField portServer;
+	JTextField message;
+	JTextField name;
+	
+	public static int ports;
+	
+	
 	public static void main(String[] args) {
 		new WindowServer();
 	}
-	
-	JButton button1;
-	JButton button2;
-	
+
 	public WindowServer() {
 		init();
 	}
@@ -31,38 +46,50 @@ public class WindowServer {
 		label1.setBounds(10, 8, 50, 30);
 		window.add(label1);
 		
-		JTextField textField1 = new JTextField();
-		textField1.setBounds(60, 8, 120, 30);
-		window.add(textField1);
+		portServer = new JTextField();
+		portServer.setBounds(60, 8, 100, 30);
+		portServer.setText("30000");
+		window.add(portServer);
 		
-		button1 = new JButton("启动");
-		button1.setBounds(300, 8, 80, 30);
-		window.add(button1);
+		JLabel names = new JLabel("昵称:");
+		names.setBounds(180, 8, 45, 30);
+		window.add(names);
+		
+		name = new JTextField();
+		name.setBounds(220, 8, 60, 30);
+		name.setText("服务端");
+		window.add(name);
+		
+		startButton = new JButton("启动");
+		startButton.setBounds(300, 8, 80, 30);
+		window.add(startButton);
 		
 		JLabel label2 = new JLabel("用户列表");
 		label2.setBounds(40, 40, 80, 30);
 		window.add(label2);
 		
-		String[] data = {"one","two","three","one","two","three","one",
-				"two","one","two","one","two"};
-		JList list = new JList(data);
+		
+		JList list = new JList();
 		JScrollPane scrollPane = new JScrollPane(list);
+		
 		scrollPane.setBounds(10, 70, 120, 220);
 		window.add(scrollPane);
 		
-		JTextArea textArea1 = new JTextArea();
-		textArea1.setBounds(135, 70, 340, 220);
-		textArea1.setText("接收信息，不能输入");
-		textArea1.setEditable(false);
-		window.add(textArea1);
+		textMessage = new JTextArea();
+		textMessage.setBounds(135, 70, 340, 220);
+//		textMessage.setText("接收信息，不能输入");
+		textMessage.setEditable(false);
+		JScrollPane scrollPane1 = new JScrollPane(textMessage);//设置滚动条
+		scrollPane1.setBounds(135, 70, 340, 220);
+		window.add(scrollPane1);
 		
-		JTextField textField2 = new JTextField();
-		textField2.setBounds(10, 300, 360, 50);
-		window.add(textField2);
+		message = new JTextField();
+		message.setBounds(10, 300, 360, 50);
+		window.add(message);
 		
-		button2 = new JButton("发送");
-		button2.setBounds(380, 305, 70, 40);
-		window.add(button2);
+		send = new JButton("发送");
+		send.setBounds(380, 305, 70, 40);
+		window.add(send);
 		
 		myEvent();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,8 +97,38 @@ public class WindowServer {
 	}
 	
 	public void myEvent(){
-//		button1.addActionListener();
-//		button2.addActionListener();
+		startButton.addActionListener(new ActionListener() {		
+			public void actionPerformed(ActionEvent e) {
+				ports = getPort();
+				try {
+					new Thread(new StartServer(ports)).start(); 
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		send.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String messages = message.getText();
+				new SendServer(StartServer.userList, getName() + "：" + messages);
+				WindowServer.textMessage.append(getName() + "：" + messages + "\r\n");
+				message.setText(null);
+			}
+		});
 	}
 	
+	public int getPort(){
+		String port = portServer.getText();
+		if(port == null)
+			System.out.println("端口不能为空");
+		
+		return Integer.parseInt(port);
+	}	
+	
+	public String getName(){
+		return name.getText();
+	}
 }
+
+

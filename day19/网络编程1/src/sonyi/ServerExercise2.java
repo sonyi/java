@@ -20,8 +20,7 @@ public class ServerExercise2 {
 			System.out.println(id + "-----------connected");
 			System.out.println("当前客户端个数为：" + userList.size());
 			new Thread(new ReadThread(s,userList)).start();	
-		}
-					
+		}				
 	}
 }
 

@@ -1,0 +1,26 @@
+布局：
+	1、边框布局：BorderLayout	是JFrame默认布局
+	2、流式布局：FlowLayout		是JPanel默认布局
+	3、网格布局：GridLayout		
+	4、绝对布局：setLayout(null)
+	
+	setLayout(LayoutManager manager)  设置布局
+	
+	轻量级容器：
+		Container:默认没有布局，使用时需要设置布局
+		JPanel:默认流式布局
+	
+按钮：
+	Button
+	
+组件：
+	1、按钮：JButton
+	2、复选框：JChexbox
+	3、下拉框：JComboBox
+	4、标签：JLable
+	5、单选按钮：JReadButton
+	6、文本域：JTextArea
+	
+	5、JDialog
+	6、JList
+	
