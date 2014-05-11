@@ -1,8 +1,9 @@
 package sonyi.client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -21,13 +22,29 @@ class ReceiveClientThread implements Runnable{
 	}
 	public void run() {
 		try {
-			InputStream isIn = s.getInputStream();
-			while(true){		
-				byte[] buf = new byte[1024];
-				int len = isIn.read(buf);
-				String line = new String(buf,0,len);
-				//System.out.println("client-----" + line);
-				WindowClient.textArea1.append(line + "\r\n");
+			BufferedReader brIn = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			while(true){	
+				char info = (char)brIn.read();
+				String line = brIn.readLine();
+				if(info == '1'){//发送消息
+					WindowClient.textArea1.append(line + "\r\n");	
+				}
+				if(info == '2'){//有新用户加入
+					String sub = line.substring(1, line.length()-1);
+					String[] data = sub.split(",");
+					WindowClient.user.clearSelection();
+					WindowClient.user.setListData(data);
+				}
+				if(info == '3'){//有用户退出
+					String sub = line.substring(1, line.length()-1);
+					String[] data = sub.split(",");
+					WindowClient.user.clearSelection();
+					WindowClient.user.setListData(data);
+				}
+				if(info == '4'){//服务端退出
+					s.close();
+					break;
+				}
 			}	
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -37,9 +54,10 @@ class ReceiveClientThread implements Runnable{
 
 
 class SendClient {
-	SendClient(Socket s,String message) throws IOException{
-		OutputStream osOut = s.getOutputStream();
-		osOut.write(message.getBytes());
+	SendClient(Socket s,Object message,String info) throws IOException{	
+		String messages = info + message;
+		PrintWriter pwOut = new PrintWriter(s.getOutputStream(),true);
+		pwOut.println(messages);
 	}
 }	
 

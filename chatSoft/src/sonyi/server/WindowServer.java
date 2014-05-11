@@ -3,10 +3,9 @@ package sonyi.server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,15 +14,16 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 
 public class WindowServer {
+	JFrame window;
 	public static JTextArea textMessage;
 	JButton startButton;
 	JButton send;
 	JTextField portServer;
 	JTextField message;
 	JTextField name;
+	public static JList<String> user;
 	
 	public static int ports;
 	
@@ -37,7 +37,7 @@ public class WindowServer {
 	}
 	
 	public void init(){
-		JFrame window = new JFrame("服务端");
+		window = new JFrame("服务端");
 		window.setLayout(null);
 		window.setBounds(200, 200, 500, 400);
 		window.setResizable(false);
@@ -69,8 +69,8 @@ public class WindowServer {
 		window.add(label2);
 		
 		
-		JList list = new JList();
-		JScrollPane scrollPane = new JScrollPane(list);
+		user = new JList<String>();
+		JScrollPane scrollPane = new JScrollPane(user);
 		
 		scrollPane.setBounds(10, 70, 120, 220);
 		window.add(scrollPane);
@@ -91,12 +91,24 @@ public class WindowServer {
 		send.setBounds(380, 305, 70, 40);
 		window.add(send);
 		
-		myEvent();
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		myEvent();	
 		window.setVisible(true);
 	}
 	
 	public void myEvent(){
+		window.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				if(StartServer.userList != null && StartServer.userList.size() != 0){
+					try {
+						new SendServer(StartServer.userList, "" , 4 + "");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				System.exit(0);
+			}
+		});
+		
 		startButton.addActionListener(new ActionListener() {		
 			public void actionPerformed(ActionEvent e) {
 				ports = getPort();
@@ -111,7 +123,11 @@ public class WindowServer {
 		send.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String messages = message.getText();
-				new SendServer(StartServer.userList, getName() + "：" + messages);
+				try {
+					new SendServer(StartServer.userList, getName() + "：" + messages, 1 + "");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				WindowServer.textMessage.append(getName() + "：" + messages + "\r\n");
 				message.setText(null);
 			}

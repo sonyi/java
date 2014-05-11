@@ -84,7 +84,6 @@ public class MyWindowDemo {
 			String[] names = dir.list();
 			for(String name : names){
 				tArea.append(name + "\r\n");
-				//tArea.setText(name + "\r\n");
 			}
 			tField.setText(null);
 		}

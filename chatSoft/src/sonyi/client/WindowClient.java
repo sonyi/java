@@ -1,13 +1,18 @@
 package sonyi.client;
 
 
+import java.awt.FlowLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -16,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class WindowClient {
+	JFrame window;
 	public static JTextArea textArea1;
 	JTextField port;
 	JTextField name;
@@ -23,7 +29,10 @@ public class WindowClient {
 	JButton link;
 	JButton send;
 	JTextField message;
-	public static Socket socket;
+	public static Socket socket = null;
+	public static JList<String> user;
+	public JDialog dialog;
+	public JButton button = new JButton("确定");
 	
 	public static void main(String[] args) {
 		new WindowClient();
@@ -34,7 +43,7 @@ public class WindowClient {
 	}
 	
 	public void init(){
-		JFrame window = new JFrame("客户端");
+		window = new JFrame("客户端");
 		window.setLayout(null);
 		window.setBounds(200, 200, 500, 400);
 		window.setResizable(false);
@@ -75,16 +84,13 @@ public class WindowClient {
 		label2.setBounds(40, 40, 80, 30);
 		window.add(label2);
 		
-		String[] data = {"one","two","three","one","two","three",
-				"one","two","one","two","two","one"};
-		JList<String> list = new JList<String>(data);
-		JScrollPane scrollPane = new JScrollPane(list);
+		user = new JList<String>();
+		JScrollPane scrollPane = new JScrollPane(user);
 		scrollPane.setBounds(10, 70, 120, 220);
 		window.add(scrollPane);
 		
 		textArea1 = new JTextArea();
 		textArea1.setBounds(135, 70, 340, 220);
-//		textArea1.setText("接收信息，不能输入");
 		textArea1.setEditable(false);//不可编辑
 		JScrollPane scrollPane1 = new JScrollPane(textArea1);//设置滚动条
 		scrollPane1.setBounds(135, 70, 340, 220);
@@ -92,6 +98,7 @@ public class WindowClient {
 		
 		message = new JTextField();
 		message.setBounds(10, 300, 360, 50);
+		message.setText(null);
 		window.add(message);
 		
 		send = new JButton("发送");
@@ -99,58 +106,99 @@ public class WindowClient {
 		window.add(send);
 		
 		myEvent();
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
 		
 	}
 	
 	
 	public void myEvent(){
+		window.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				if(socket != null && socket.isConnected()){
+					try {
+						new SendClient(socket, getName(), 3 + "");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				System.exit(0);
+			}
+		});
+		
 		
 		link.addActionListener(new ActionListener() {		
 			public void actionPerformed(ActionEvent e) {
 				socket = socket();
-			
-				new Thread(new ReceiveClientThread(socket)).start();
-//				try {
-//					new SendClient(socket, getName());//连接时，将客户端昵称发送给服务端
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
-//				}
+				if(socket != null && socket.isConnected()){	
+					try {
+						new SendClient(socket, getName(), 2 + "");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					new Thread(new ReceiveClientThread(socket)).start();
+				}	
 			}
 		});
 		
 		send.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				String messages = message.getText();
-				try {
-					new SendClient(socket,getName() + "：" + messages);
-					message.setText(null);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				System.out.println(messages + "------");
+				if(messages == null){
+					showMessage("内容为空，请输入信息");
 				}
+				else if(socket != null && socket.isConnected()){
+					try {
+						new SendClient(socket,getName() + "：" + messages,1 + "");
+						message.setText(null);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				
 			}
 		});	
+		
+		button.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				dialog.setVisible(false);
+			}
+		});
+		
 	}
 	
+
+	@SuppressWarnings({ "finally", "resource" })
 	public Socket socket(){
 		int ports = Integer.parseInt(port.getText());
 		String ipString = ip.getText();
 		Socket s = null;
+		//对ip和port做相应判断
+		
 		try {
 			s = new Socket(ipString,ports);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			showMessage("Socket连接失败");
 		}
-		return s;
+		finally{
+			return s;
+		}
+		
 	}
 	
 	public String getName(){
 		return name.getText();
+	}
+	
+	public void showMessage(String point) {
+		dialog = new JDialog(window, "提示信息",true);
+		dialog.setBounds(200,200,240,100);
+		dialog.setLayout(new FlowLayout());
+		Label label = new Label();
+		
+		dialog.add(label);
+		dialog.add(button);
+		label.setText(point);
+		dialog.setVisible(true);
 	}
 }
