@@ -37,5 +37,4 @@ public class AWTDemo {
 		});
 		f.setVisible(true);
 	}
-
 }

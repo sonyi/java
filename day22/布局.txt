@@ -1,3 +1,87 @@
+GUI -- Graphical User Interface
+	AWT    (抽象窗口工具集 ) AbstractWindow Toolkit 
+		--为简单的applet程序设计 
+		--AWT没有提供足够的桌面端的程序所需的特性
+		--它不适宜用来构建丰富的桌面图形界面
+	Swing
+		--Swing是AWT的扩展和功能加强 
+		--是构建java图形界面标准的API
+	SWT(Standard Widget Toolkit)
+		--是一个开源的GUI编程框架 
+		--SWT是IBM为它的Eclipse集成开发环境而开发的图形用户界面工具
+		
+	Swing组件
+			Java语言提供的第二代GUI设计工具包，它以AWT为基础，在AWT内容的基础上新增
+		或改进了一些GUI组件，使得GUI程序功能更强大，设计更容易、更方便。"Swing"是开
+		发新组件的项目代码名，现在，这个名字常用来引用新组件和相关的API。
+	AWT组件和对应的Swing组件
+			从名称上很容易记忆和区别。例如，AWT的框架类、面板类、按钮类和菜单类，被
+		命名为Frame、Panel、Button和Menu，而Swing对应的组件类被命名为JFrame、JPanel、
+		JButton和JMenu。与AWT组件相比，Swing组件的名前多一个 “J” 字母。另外，AWT 组
+		件在java.awt包中,而Swing组件在javax.swing包中。
+
+Frame:
+	Frame是Window的子类，由Frame或其子类创建的对象为一个窗体。
+		Frame的常用构造方法：
+			--Frame()
+			--Frame(String s) 创建标题栏为字符串s的窗口。
+			
+		Frame的常用方法：
+			setBounds(int x,int y,int width,int height)
+				设置窗体位置和大小，x，y是左上角坐标，widht和height是宽度和高度
+			setSize(int width,int height)
+				设置窗体的位置，x，y是左上角坐标
+			setLocation(int x,int y)
+				设置窗体的大小，widht和height分别是宽度和高度。
+			setBackground(Color c)
+				设置背景颜色，参数为Color对象。
+			setVisible(boolean b)设置是否可见。
+			setTitle(String name)  String getTitle()
+			setResizable(boolean b)设置是否可以调整大小。
+			
+Panel：
+	Panel对象可以看成可以容纳Component的空间
+	Panel对象可以拥有自己的布局管理器
+	Panel类拥有从其父类继承来的  
+		setBounds(int x,int y,int width,int height)
+		setSize(int width,int height)
+		setLocation(int x,int y)
+		setBackground(Color c)
+		setLayout(LayoutManager mgr) 等方法。
+	Panel的构造方法为：
+		Panel() 使用默认的 FlowLayout类布局管理器初始化。
+		Panel(LayoutManager layout)使用指定的布局管理器初始化。
+
+布局管理器：
+	ava语言中，提供了布局管理器类的对象可以管理
+		管理Component在Container中的布局，不必直接设置Component位置和大小。
+		每个Container都有一个布局管理器对象，当容器需要对某个组件进行定位或判断其
+			大小尺寸时，就会调用其对应的布局管理器,调用Container的setLayout方法改
+			变其布局管理器对象。
+		每种容器都有自己缺省的布局管理器。缺省地，JPanel使用FlowLayout，而内容窗格
+			ContentPane(JApplet、JDialog和JFrame对象的主容器) 使用BorderLayout。如
+			果不希望使用缺省的布局管理器，则可使用所有容器的父类Container的
+			setLayout()方法来改变缺省的布局管理器。
+	Awt提供了5种布局管理器类：
+		FlowLayout、BorderLayout、GridLayout、CardLayout 、GridBagLayout
+		
+	布局管理器总结：
+			Frame是一个顶级窗口，Frame的缺省布局管理器为BorderLayout
+			Panel无法单独显示，必须添加到某个容器中。
+				Panel的缺省布局管理器为FlowLayout。
+			当把Panel作为一个组件添加到某个容器中后，该Panel仍然可以有自己的布局管理器。
+			使用布局管理器时，布局管理器负责各个组件的大小和位置，因此用户无法在这
+				种情况下设置组件大小和位置属性，如果试图使用Java语言提供的setLocation()，
+				setSize()，setBounds()等方法，则都会被布局管理器覆盖。
+			如果用户确实需要亲自设置组件大小或位置，则应取消该容器的布局管理器，方法为：
+				setLayout(null)
+
+Graphics 类：
+	每个Component都有一个paint(Graphics g)用于实现绘图目的，每次重画该Component时都自动调用paint方法。
+	Graphics类中提供了许多绘图方法，如：
+		drawRect(int x,int y,int width,int height)
+		fillRoundRect(int x,int y,int width,int height,int arcWidth,int arcHeight)等
+		
 布局：
 	1、边框布局：BorderLayout	是JFrame默认布局
 	2、流式布局：FlowLayout		是JPanel默认布局
@@ -9,10 +93,18 @@
 	轻量级容器：
 		Container:默认没有布局，使用时需要设置布局
 		JPanel:默认流式布局
+		
+顶级容器:
+	JFrame：用于框架窗口的类，此窗口带有边框、标题、用于关闭和最小化窗口的图标等。带 GUI 的应用程序通常至少使用一个框架窗口。
+	JDialog：用于对话框的类。
+	JApplet：用于使用 Swing 组件的 Java Applet 的类
 	
-按钮：
-	Button
-	
+中间容器:
+	JPanel：最灵活、最常用的中间容器。
+	JScrollPane：与 JPanel 类似，但还可在大的组件或可扩展组件周围提供滚动条。
+	JTabbedPane：包含多个组件，但一次只显示一个组件。用户可在组件之间方便地切换。
+	JToolBar：按行或列排列一组组件（通常是按钮）。
+		
 组件：
 	1、按钮：JButton
 	2、复选框：JChexbox
@@ -20,7 +112,4 @@
 	4、标签：JLable
 	5、单选按钮：JReadButton
 	6、文本域：JTextArea
-	
-	5、JDialog
-	6、JList
-	
+		

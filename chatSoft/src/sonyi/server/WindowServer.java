@@ -51,17 +51,17 @@ public class WindowServer {
 		portServer.setText("30000");
 		window.add(portServer);
 		
-		JLabel names = new JLabel("昵称:");
-		names.setBounds(180, 8, 45, 30);
+		JLabel names = new JLabel("用户名:");
+		names.setBounds(180, 8, 55, 30);
 		window.add(names);
 		
 		name = new JTextField();
-		name.setBounds(220, 8, 60, 30);
+		name.setBounds(230, 8, 60, 30);
 		name.setText("服务端");
 		window.add(name);
 		
 		startButton = new JButton("启动");
-		startButton.setBounds(300, 8, 80, 30);
+		startButton.setBounds(350, 8, 80, 30);
 		window.add(startButton);
 		
 		JLabel label2 = new JLabel("用户列表");

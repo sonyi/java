@@ -9,7 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -67,17 +66,17 @@ public class WindowClient {
 		port.setText("30000");
 		window.add(port);
 		
-		JLabel names = new JLabel("昵称:");
-		names.setBounds(270, 8, 45, 30);
+		JLabel names = new JLabel("用户名:");
+		names.setBounds(270, 8, 55, 30);
 		window.add(names);
 		
 		name = new JTextField();
-		name.setBounds(305, 8, 60, 30);
+		name.setBounds(315, 8, 60, 30);
 		name.setText("客户端1");
 		window.add(name);
 		
 		link = new JButton("连接");
-		link.setBounds(380, 8, 80, 30);
+		link.setBounds(390, 8, 80, 30);
 		window.add(link);
 		
 		JLabel label2 = new JLabel("用户列表");
@@ -144,7 +143,7 @@ public class WindowClient {
 			public void actionPerformed(ActionEvent e) {
 				String messages = message.getText();
 				System.out.println(messages + "------");
-				if(messages == null){
+				if(messages == ""){
 					showMessage("内容为空，请输入信息");
 				}
 				else if(socket != null && socket.isConnected()){
@@ -192,7 +191,7 @@ public class WindowClient {
 	
 	public void showMessage(String point) {
 		dialog = new JDialog(window, "提示信息",true);
-		dialog.setBounds(200,200,240,100);
+		dialog.setBounds(300,300,240,100);
 		dialog.setLayout(new FlowLayout());
 		Label label = new Label();
 		
