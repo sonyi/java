@@ -85,12 +85,16 @@ public class WindowServer {
 		textMessage.setBounds(135, 70, 340, 220);
 		textMessage.setBorder(new TitledBorder("聊天记录"));//设置标题
 		textMessage.setEditable(false);//不可编辑
+		//文本内容换行的两个需要配合着用
+		textMessage.setLineWrap(true);//设置文本内容自动换行，在超出文本区域时，可能会切断单词
+		textMessage.setWrapStyleWord(true);//设置以自动换行，以单词为整体，保证单词不会被切断
 		JScrollPane scrollPane1 = new JScrollPane(textMessage);//设置滚动条
 		scrollPane1.setBounds(135, 70, 340, 220);
 		window.add(scrollPane1);
 		
 		message = new JTextField();
 		message.setBounds(10, 300, 360, 50);
+		
 		window.add(message);
 		
 		send = new JButton("发送");
@@ -134,6 +138,7 @@ public class WindowServer {
 						exit.setText("已关闭");
 						StartServer.ss.close();//关闭服务端
 						StartServer.ss = null;
+						StartServer.userList = null;
 						StartServer.flag = false;//改变服务端循环标记
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -155,7 +160,7 @@ public class WindowServer {
 							StartServer.flag = true;//改变服务端接收循环标记
 							new Thread(new StartServer(ports)).start(); //开启服务端接收线程
 							start.setText("已启动");
-							exit.setText("退出");
+							exit.setText("关闭");
 						} catch (IOException e1) {
 							JOptionPane.showMessageDialog(window, "启动失败");
 						}
@@ -187,6 +192,8 @@ public class WindowServer {
 		//判断内容是否为空
 		if("".equals(messages)){
 			JOptionPane.showMessageDialog(window, "内容不能为空！");
+		}else if(StartServer.userList == null || StartServer.userList.size() == 0){//判断是否已经连接成功
+			JOptionPane.showMessageDialog(window, "未连接成功，不能发送消息！");
 		}else {
 			try {
 				//将信息发送给所有客户端

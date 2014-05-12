@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 //启动客户端接收线程
 public class StartClient {
 	public StartClient(Socket s) throws UnknownHostException, IOException{	
@@ -28,8 +30,10 @@ class ReceiveClient implements Runnable{
 				char info = (char)brIn.read();//读取信息流首字符，判断信息类型
 				String line = brIn.readLine();//读取信息流内容
 				
-				if(info == '1'){//发送消息
-					WindowClient.textMessage.append(line + "\r\n");	
+				if(info == '1'){//代表发送的是消息
+					WindowClient.textMessage.append(line + "\r\n");	//将消息添加到文本域中
+					//设置消息显示最新一行，也就是滚动条出现在末尾，显示最新一条输入的信息
+					WindowClient.textMessage.setCaretPosition(WindowClient.textMessage.getText().length());
 				}
 				
 				if(info == '2' || info == '3'){//有新用户加入或退出，2为加入，3为退出
@@ -39,7 +43,7 @@ class ReceiveClient implements Runnable{
 					WindowClient.user.setListData(data);
 				}
 				
-				if(info == '4'){//服务端退出
+				if(info == '4'){//4代表服务端退出
 					WindowClient.link.setText("连接");
 					WindowClient.exit.setText("已退出");
 					WindowClient.socket.close();
@@ -48,13 +52,13 @@ class ReceiveClient implements Runnable{
 				}
 			}	
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(WindowClient.window, "客户端已退出连接");
 		}
 	}	
 }
 
-
-class SendClient {//客户端发送信息类
+//客户端发送信息类
+class SendClient {
 	SendClient(Socket s,Object message,String info) throws IOException{	
 		String messages = info + message;
 		PrintWriter pwOut = new PrintWriter(s.getOutputStream(),true);

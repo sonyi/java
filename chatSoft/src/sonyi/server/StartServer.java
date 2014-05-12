@@ -8,12 +8,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.JOptionPane;
 
 //启动服务端接收客户端的线程
 public class StartServer implements Runnable{
 	private int port;
-	public static ArrayList<Socket> userList;
+	public static ArrayList<Socket> userList = null;
 	public static Vector<String> userName = null;
 	public static ServerSocket ss = null;
 	public static boolean flag = true;
@@ -47,7 +48,7 @@ public class StartServer implements Runnable{
 				new Thread(new ReceiveServer(s,userList,userName)).start();
 		
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "服务端退出！");
+				JOptionPane.showMessageDialog(WindowServer.window, "服务端退出！");
 			}	
 		}
 	}
@@ -75,6 +76,8 @@ class ReceiveServer implements Runnable{
 				
 				if(info == '1'){//1代表收到的是信息
 					WindowServer.textMessage.append(line + "\r\n");//将信息添加到服务端聊天记录中
+					//设置消息显示最新一行，也就是滚动条出现在末尾，显示最新一条输入的信息
+					WindowServer.textMessage.setCaretPosition(WindowServer.textMessage.getText().length());
 					new SendServer(userList, line, "1");//将信息转发给客户端
 				}
 				

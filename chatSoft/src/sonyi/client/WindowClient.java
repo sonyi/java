@@ -19,9 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class WindowClient {
-	JFrame window;
 	JTextField port,name,ip,message;
 	JButton send;
+	public static JFrame window;
 	public static JButton link,exit;
 	public static JTextArea textMessage;
 	public static Socket socket = null;
@@ -91,8 +91,11 @@ public class WindowClient {
 		
 		textMessage = new JTextArea();
 		textMessage.setBounds(135, 70, 340, 220);
-		textMessage.setEditable(false);//不可编辑
+		textMessage.setEditable(false);//文本不可编辑
 		textMessage.setBorder(new TitledBorder("聊天记录"));//设置标题
+		//文本内容换行的两个需要配合着用
+		textMessage.setLineWrap(true);//设置文本内容自动换行，在超出文本区域时，可能会切断单词
+		textMessage.setWrapStyleWord(true);//设置以自动换行，以单词为整体，保证单词不会被切断
 		JScrollPane scrollPane1 = new JScrollPane(textMessage);//设置滚动条
 		scrollPane1.setBounds(135, 70, 340, 220);
 		window.add(scrollPane1);
@@ -197,7 +200,7 @@ public class WindowClient {
 		if("".equals(messages)){//判断信息是否为空
 			JOptionPane.showMessageDialog(window, "内容不能为空！");
 		}
-		else if(!(socket != null && socket.isConnected())){//判断是否已经连接成功
+		else if(socket == null || !socket.isConnected()){//判断是否已经连接成功
 			JOptionPane.showMessageDialog(window, "未连接成功，不能发送消息！");
 		}else {
 			try {
