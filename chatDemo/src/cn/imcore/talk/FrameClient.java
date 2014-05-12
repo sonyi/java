@@ -27,7 +27,7 @@ public class FrameClient extends JFrame implements ActionListener{
 	public static Vector<String> userNames;
 	
 	private JPanel northPanel, southPanel, westPanel, centerPanel;
-	private JButton connectBtn, sendBtn;
+	public static JButton connectBtn, sendBtn;
 	private JTextField ip, port, userName, sendText;
 	public static JList user;
 	public static JTextArea history;
@@ -132,7 +132,10 @@ public class FrameClient extends JFrame implements ActionListener{
 				String str = sendText.getText();
 				if("".equals(str)) {
 					JOptionPane.showMessageDialog(null, "发送信息不能为空！");
-				} else {
+				} else if(client == null) {
+					JOptionPane.showMessageDialog(null, "未连接服务器！");
+				}
+				else {
 					//发送信息
 					client.sendMsg(str);
 					sendText.setText("");
@@ -142,8 +145,13 @@ public class FrameClient extends JFrame implements ActionListener{
 		
 	}
 	//刷新用户列表
-	public static void reFresh() {
-		user.setListData(userNames);
+	public static void reFresh(String[] datas) {
+		if(datas != null){
+			user.setListData(datas);
+		} else {
+			user.setListData(userNames);
+		}
 	}
 
+	
 }

@@ -34,13 +34,18 @@ public class MultServer extends Thread{
 				FrameSever.userNames.add(name);
 				FrameSever.reFresh();//刷新
 				//发送客户端名称到其他客户端
-				sendToClients(ss, "user@"+name);
+				sendToClients(null, "user@"+FrameSever.userNames);
 				//创建接收子线程
 				new ReadThread(ss).start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if(server != null) {
+				try {
+					server.close();
+				} catch (IOException e1) {
+					
+				}
+			}
 		}
 	}
 	
@@ -67,12 +72,20 @@ public class MultServer extends Thread{
 					String str;
 					while((str=read.readLine()) != null) {
 						System.out.println(str);
+						if("88".equals(str)) {
+							//把当前用户从用户列表中除去
+							
+						}
 						//转发客户信息
 						sendToClients(ss, str);
+						
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						read.close();
+					} catch (IOException e1) {
+						
+					}
 				}
 			}
 			
@@ -90,12 +103,31 @@ public class MultServer extends Thread{
 						//发送信息
 						new PrintWriter(user.getOutputStream(), true).println(msg);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						
 					}
 				}
 			}
 			//写到自己当前的聊天记录
-			writeToTextArea(msg);
+			if(msg.indexOf("user@") != -1){
+				//
+			} else {
+				writeToTextArea(msg);
+			}
+		}
+		
+		public void close() {
+			for(int i=0; i<FrameSever.userList.size(); i++) {
+				try {
+					FrameSever.userList.get(i).close();
+				} catch (IOException e) {
+					
+				}
+			}
+			FrameSever.userList.clear();
+			try {
+				server.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 }

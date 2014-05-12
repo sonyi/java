@@ -54,17 +54,23 @@ public class MultClient extends Thread{
 				String str;
 				while((str=read.readLine()) != null) {
 					if(str.indexOf("user@") != -1) {
-						FrameClient.userNames.add(str.split("@")[1]);
-						FrameClient.reFresh();
-					} else {
+						String username = str.split("@")[1].replace("[", "").replace("]", "");
+						FrameClient.reFresh(username.split(","));
+//						FrameClient.userNames.add(str.split("@")[1]);
+//						FrameClient.reFresh();
+					} else if("关闭".equals(str)){
+						break;
+					}
+					else {
 						System.out.println(str);
 						//写到聊天记录
 						writeToHistory(str);
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
+			} finally {
+				close(ss, read);
 			}
 		}
 		
@@ -85,6 +91,17 @@ public class MultClient extends Thread{
 			FrameClient.history.append(msg);
 		} else {
 			FrameClient.history.append("\n" + msg);
+		}
+	}
+	
+	
+	public void close(Socket ss, BufferedReader read) {
+		try {
+			read.close();
+			customer.close();
+			FrameClient.connectBtn.setEnabled(true);
+		} catch (IOException e) {
+			
 		}
 	}
 }

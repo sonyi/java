@@ -27,7 +27,7 @@ public class FrameSever extends JFrame implements ActionListener{
 	public static Vector<String> userNames;
 	
 	private JPanel northPanel, southPanel, westPanel, centerPanel;
-	private JButton startBtn, sendBtn;
+	private JButton startBtn, sendBtn, endBtn;
 	private JTextField port, sendText;
 	public static JList user;
 	public static JTextArea history;
@@ -51,6 +51,7 @@ public class FrameSever extends JFrame implements ActionListener{
 		centerPanel.setBorder(new TitledBorder(""));
 		
 		startBtn = new JButton("启动");
+		endBtn = new JButton("关闭");
 		sendBtn = new JButton("发送");
 		portTxt = new JLabel("端口号：");
 		port = new JTextField("8001", 8);
@@ -68,6 +69,7 @@ public class FrameSever extends JFrame implements ActionListener{
 		northPanel.add(portTxt);
 		northPanel.add(port);
 		northPanel.add(startBtn);
+		northPanel.add(endBtn);
 		//
 		southPanel.add(sendText);
 		southPanel.add(sendBtn);
@@ -79,7 +81,7 @@ public class FrameSever extends JFrame implements ActionListener{
 		//添加按钮事件
 		startBtn.addActionListener(this);
 		sendBtn.addActionListener(this);
-		
+		endBtn.addActionListener(this);
 		
 		
 		
@@ -117,6 +119,8 @@ public class FrameSever extends JFrame implements ActionListener{
 				server = new MultServer(Integer.parseInt(port1));
 			//启动服务线程
 				server.start();
+				startBtn.setEnabled(false);
+				endBtn.setEnabled(true);
 				JOptionPane.showMessageDialog(null, "服务器已经启动！");
 			}
 			
@@ -127,12 +131,23 @@ public class FrameSever extends JFrame implements ActionListener{
 			if("".equals(str)){
 				JOptionPane.showMessageDialog(null, "发送的信息不能为空！");
 				
-			} else {
+			} else if(server == null) {
+				JOptionPane.showMessageDialog(null, "服务器未启动！");
+				
+			}
+			else {
 				server.sendToClients(null, "服务器:"+str);
 				sendText.setText("");
 			}
 		}
 		
+		if(e.getSource() == endBtn) {//服务器关闭
+			server.sendToClients(null, "关闭");
+			server.close();
+			startBtn.setEnabled(true);
+			endBtn.setEnabled(false);
+			server = null;
+		}
 	}
 
 	//刷新用户列表
