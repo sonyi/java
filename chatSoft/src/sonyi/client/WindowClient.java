@@ -1,47 +1,44 @@
 package sonyi.client;
 
-
-import java.awt.FlowLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 public class WindowClient {
 	JFrame window;
-	public static JTextArea textArea1;
-	JTextField port;
-	JTextField name;
-	JTextField ip;
-	JButton link;
+	JTextField port,name,ip,message;
 	JButton send;
-	JTextField message;
+	public static JButton link,exit;
+	public static JTextArea textMessage;
 	public static Socket socket = null;
 	public static JList<String> user;
-	public JDialog dialog;
-	public JButton button = new JButton("确定");
 	
+	//主函数入口
 	public static void main(String[] args) {
 		new WindowClient();
 	}
 	
+	//初始化窗体
 	public WindowClient() {
 		init();
 	}
 	
-	public void init(){
+	//窗体初始化内容
+	public void init(){//采用绝对布局
 		window = new JFrame("客户端");
 		window.setLayout(null);
 		window.setBounds(200, 200, 500, 400);
@@ -52,46 +49,51 @@ public class WindowClient {
 		window.add(label);
 		
 		ip = new JTextField();
-		ip.setBounds(60, 8, 80, 30);
+		ip.setBounds(55, 8, 60, 30);
 		ip.setText("127.0.0.1");
 		window.add(ip);
 		
 		
 		JLabel label1 = new JLabel("端口号:");
-		label1.setBounds(150, 8, 50, 30);
+		label1.setBounds(125, 8, 50, 30);
 		window.add(label1);
 		
 		port = new JTextField();
-		port.setBounds(200, 8, 60, 30);
+		port.setBounds(170, 8, 40, 30);
 		port.setText("30000");
 		window.add(port);
 		
 		JLabel names = new JLabel("用户名:");
-		names.setBounds(270, 8, 55, 30);
+		names.setBounds(220, 8, 55, 30);
 		window.add(names);
 		
 		name = new JTextField();
-		name.setBounds(315, 8, 60, 30);
+		name.setBounds(265, 8, 60, 30);
 		name.setText("客户端1");
 		window.add(name);
 		
 		link = new JButton("连接");
-		link.setBounds(390, 8, 80, 30);
+		link.setBounds(335, 8, 75, 30);
 		window.add(link);
+		
+		exit = new JButton("退出");
+		exit.setBounds(415, 8, 75, 30);
+		window.add(exit);
 		
 		JLabel label2 = new JLabel("用户列表");
 		label2.setBounds(40, 40, 80, 30);
 		window.add(label2);
 		
 		user = new JList<String>();
-		JScrollPane scrollPane = new JScrollPane(user);
+		JScrollPane scrollPane = new JScrollPane(user);//设置滚动条
 		scrollPane.setBounds(10, 70, 120, 220);
 		window.add(scrollPane);
 		
-		textArea1 = new JTextArea();
-		textArea1.setBounds(135, 70, 340, 220);
-		textArea1.setEditable(false);//不可编辑
-		JScrollPane scrollPane1 = new JScrollPane(textArea1);//设置滚动条
+		textMessage = new JTextArea();
+		textMessage.setBounds(135, 70, 340, 220);
+		textMessage.setEditable(false);//不可编辑
+		textMessage.setBorder(new TitledBorder("聊天记录"));//设置标题
+		JScrollPane scrollPane1 = new JScrollPane(textMessage);//设置滚动条
 		scrollPane1.setBounds(135, 70, 340, 220);
 		window.add(scrollPane1);
 		
@@ -104,15 +106,15 @@ public class WindowClient {
 		send.setBounds(380, 305, 70, 40);
 		window.add(send);
 		
-		myEvent();
-		window.setVisible(true);
-		
+		myEvent();//添加监听事件
+		window.setVisible(true);//设置窗体可见	
 	}
 	
 	
-	public void myEvent(){
-		window.addWindowListener(new WindowAdapter() {
+	public void myEvent(){//事件监听
+		window.addWindowListener(new WindowAdapter() {//退出窗体
 			public void windowClosing(WindowEvent e){
+				//如果仍在连接，发信息给服务端，并退出
 				if(socket != null && socket.isConnected()){
 					try {
 						new SendClient(socket, getName(), 3 + "");
@@ -124,80 +126,92 @@ public class WindowClient {
 			}
 		});
 		
-		
-		link.addActionListener(new ActionListener() {		
+		//关闭连接
+		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				socket = socket();
-				if(socket != null && socket.isConnected()){	
+				//如果仍在连接，将信息发给服务端
+				if(socket == null){
+					JOptionPane.showMessageDialog(window, "已关闭连接");
+				}else if(socket != null && socket.isConnected()){
 					try {
-						new SendClient(socket, getName(), 2 + "");
+						new SendClient(socket, getName(), "3");//发送信息给服务端
+						link.setText("连接");
+						exit.setText("已退出");
+						socket.close();//关闭socket
+						socket = null;
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-					new Thread(new ReceiveClientThread(socket)).start();
-				}	
+				}
 			}
 		});
 		
-		send.addActionListener(new ActionListener() {			
+		//建立连接
+		link.addActionListener(new ActionListener() {		
 			public void actionPerformed(ActionEvent e) {
-				String messages = message.getText();
-				System.out.println(messages + "------");
-				if(messages == ""){
-					showMessage("内容为空，请输入信息");
-				}
-				else if(socket != null && socket.isConnected()){
-					try {
-						new SendClient(socket,getName() + "：" + messages,1 + "");
-						message.setText(null);
-					} catch (IOException e1) {
-						e1.printStackTrace();
+				//判断是否已经连接成功
+				if(socket != null && socket.isConnected()){	
+					JOptionPane.showMessageDialog(window, "已经连接成功！");
+				}else {
+					String ipString = ip.getText();//获取ip地址
+					String portClinet = port.getText();//获取端口号
+					
+					if("".equals(ipString) || "".equals(portClinet)){//判断获取内容是否为空
+						JOptionPane.showMessageDialog(window, "ip或端口号为空！");
+					}else {
+						try {
+							int ports = Integer.parseInt(portClinet);//将端口号转为整形
+							socket = new Socket(ipString,ports);//建立连接
+							link.setText("已连接");//更改button显示信息
+							exit.setText("退出");
+							new SendClient(socket, getName(), 2 + "");//发送该客户端名称至服务器
+							new Thread(new ReceiveClient(socket)).start();//启动接收线程
+						} catch (Exception e2) {
+							JOptionPane.showMessageDialog(window, "连接未成功！可能是ip或端口号格式不对，或服务器未开启。");
+						}
 					}
 				}
-				
+			}
+		});
+		
+		//点击按钮发送信息
+		send.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				sendMsg();
 			}
 		});	
 		
-		button.addActionListener(new ActionListener() {			
-			public void actionPerformed(ActionEvent e) {
-				dialog.setVisible(false);
+		//按回车发送信息
+		message.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					sendMsg();
+				}
 			}
 		});
-		
 	}
 	
-
-	@SuppressWarnings({ "finally", "resource" })
-	public Socket socket(){
-		int ports = Integer.parseInt(port.getText());
-		String ipString = ip.getText();
-		Socket s = null;
-		//对ip和port做相应判断
-		
-		try {
-			s = new Socket(ipString,ports);
-		} catch (Exception e) {
-			showMessage("Socket连接失败");
+	//发送信息的方法
+	public void sendMsg(){
+		String messages = message.getText();//获取文本框内容
+		if("".equals(messages)){//判断信息是否为空
+			JOptionPane.showMessageDialog(window, "内容不能为空！");
 		}
-		finally{
-			return s;
-		}
-		
+		else if(!(socket != null && socket.isConnected())){//判断是否已经连接成功
+			JOptionPane.showMessageDialog(window, "未连接成功，不能发送消息！");
+		}else {
+			try {
+				//发送信息
+				new SendClient(socket,getName() + "：" + messages,"1");
+				message.setText(null);//文本框内容设置为空
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(window, "信息发送失败！");
+			}
+		}	
 	}
 	
+	//获取客户端名称
 	public String getName(){
 		return name.getText();
-	}
-	
-	public void showMessage(String point) {
-		dialog = new JDialog(window, "提示信息",true);
-		dialog.setBounds(300,300,240,100);
-		dialog.setLayout(new FlowLayout());
-		Label label = new Label();
-		
-		dialog.add(label);
-		dialog.add(button);
-		label.setText(point);
-		dialog.setVisible(true);
 	}
 }
