@@ -15,46 +15,44 @@ public class Snake {
 	public static final int LEFT = 2;
 	public static final int RIGHT = -2;
 	
-	private int oldDirection,newDirection;
-	private Point oldTail;
+	private int oldDirection,newDirection;//控制蛇方法
+	private Point oldTail;//蛇尾
+	private boolean life;//蛇生命值
+	public LinkedList<Point> body = new LinkedList<Point>();//蛇身容器
+	private Set<SnakeListener> listeners = new HashSet<SnakeListener>();//蛇身监听器容器
 	
-	public LinkedList<Point> body = new LinkedList<Point>();
-	private Set<SnakeListener> listeners = new HashSet<SnakeListener>();
-	
-	private boolean life;
-	public Snake(){
+	public Snake(){//初始化蛇身
 		init();
 	}
 	
-	public void init(){
+	public void init(){//初始化内容
 		int x = Global.WIDTH/2;
 		int y = Global.HEIGHT/2;
-		
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < 3; i++){//3个长度的蛇身
 			body.addLast(new Point(x,y));
 			//Ground.rocks[x][y] = 1;
 			x--;
 		}
-		oldDirection = newDirection = RIGHT;
-		life = true;
+		oldDirection = newDirection = RIGHT;//初始化向右
+		life = true;//生命为活着
 	}
 	
-	//游戏结束
-	public void die(){
+	public void die(){//游戏结束
 		life = false;
 	}
 	
-	public void move(){
+	public void move(){//蛇的移动
 		System.out.println("snake's move");
 		//用新获取的方向与旧方向比较，判断是否是相反反向，如果不是进行赋值
 		if(!(oldDirection + newDirection == 0)){
 			oldDirection = newDirection;
 		}
 		
-		//1、去尾
-		oldTail = body.removeLast();
+		//1、先去尾
+		oldTail = body.removeLast();//去尾，并记录尾巴位置
 		//Ground.rocks[oldTail.x][oldTail.y] = 0;
 		
+		//2、再加头
 		int x = body.getFirst().x;
 		int y = body.getFirst().y;
 		switch (oldDirection) {
@@ -85,11 +83,9 @@ public class Snake {
 			default:
 				break;
 		}
-		Point newHead = new Point(x,y);
+		Point newHead = new Point(x,y);//得到新蛇头的位置
 		//Ground.rocks[x][y] = 1;
-		
-		//2、加头
-		body.addFirst(newHead);
+		body.addFirst(newHead);//添加新蛇头
 	}
 	
 	//新方向接收键盘的控制
@@ -101,7 +97,7 @@ public class Snake {
 	//蛇吃食物
 	public void eatFood(){
 		System.out.println("sanke's eatFood");
-		body.addLast(oldTail);//把原来的尾巴加上
+		body.addLast(oldTail);//把原来的尾巴加上，想当于蛇变长一格
 	}
 	
 	//判断是否吃到身体
@@ -142,7 +138,6 @@ public class Snake {
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

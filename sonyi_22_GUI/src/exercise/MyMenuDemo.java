@@ -107,8 +107,6 @@ public class MyMenuDemo {
 			}
 		});
 		
-		
-		
 		saveItem.addActionListener(new ActionListener() {		
 			public void actionPerformed(ActionEvent e) {
 				if(file == null){
@@ -138,6 +136,7 @@ public class MyMenuDemo {
 			}
 		});
 	}
+	
 	public static void main(String[] args) {
 		new MyMenuDemo();
 	}	

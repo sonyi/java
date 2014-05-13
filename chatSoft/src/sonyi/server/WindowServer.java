@@ -123,7 +123,7 @@ public class WindowServer {
 		exit.addActionListener(new ActionListener() {	//退出连接
 			public void actionPerformed(ActionEvent e) {
 				if(StartServer.ss == null || StartServer.ss.isClosed()){//如果已退出，弹窗提醒
-					JOptionPane.showMessageDialog(window, "已关闭");
+					JOptionPane.showMessageDialog(window, "服务器已关闭");
 				}else {
 					//发信息告诉客户端，要退出
 					if(StartServer.userList != null && StartServer.userList.size() != 0){

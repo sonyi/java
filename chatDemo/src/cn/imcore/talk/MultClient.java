@@ -54,11 +54,13 @@ public class MultClient extends Thread{
 				String str;
 				while((str=read.readLine()) != null) {
 					if(str.indexOf("user@") != -1) {
-						String username = str.split("@")[1].replace("[", "").replace("]", "");
+						String username = str.split("@")[1]
+								.replace("[", "").replace("]", "")
+								.replace(" ", "");
 						FrameClient.reFresh(username.split(","));
 //						FrameClient.userNames.add(str.split("@")[1]);
 //						FrameClient.reFresh();
-					} else if("¹Ø±Õ".equals(str)){
+					} else if("88".equals(str)){
 						break;
 					}
 					else {
@@ -99,7 +101,7 @@ public class MultClient extends Thread{
 		try {
 			read.close();
 			customer.close();
-			FrameClient.connectBtn.setEnabled(true);
+			
 		} catch (IOException e) {
 			
 		}

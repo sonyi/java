@@ -23,7 +23,8 @@ import javax.swing.border.TitledBorder;
 public class FrameSever extends JFrame implements ActionListener{
 	private MultServer server;
 	
-	public static Vector<Socket> userList;
+//	public static Vector<Socket> userList;
+	public static Vector<User> userList;
 	public static Vector<String> userNames;
 	
 	private JPanel northPanel, southPanel, westPanel, centerPanel;

@@ -23,11 +23,10 @@ import javax.swing.border.TitledBorder;
 public class FrameClient extends JFrame implements ActionListener{
 	private MultClient client;
 	
-	public static Vector<Socket> userList;
 	public static Vector<String> userNames;
 	
 	private JPanel northPanel, southPanel, westPanel, centerPanel;
-	public static JButton connectBtn, sendBtn;
+	public static JButton connectBtn, sendBtn, exitBtn;
 	private JTextField ip, port, userName, sendText;
 	public static JList user;
 	public static JTextArea history;
@@ -36,7 +35,6 @@ public class FrameClient extends JFrame implements ActionListener{
 	public FrameClient() {
 		this.setTitle("客户端界面");
 		
-		userList = new Vector();
 		userNames = new Vector();
 		
 		northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -52,6 +50,7 @@ public class FrameClient extends JFrame implements ActionListener{
 		
 		connectBtn = new JButton("连接");
 		sendBtn = new JButton("发送");
+		exitBtn = new JButton("断开");
 		portTxt = new JLabel("端口号：");
 		ipTxt = new JLabel("服务器IP：");
 		userTxt = new JLabel("用户名：");
@@ -77,6 +76,7 @@ public class FrameClient extends JFrame implements ActionListener{
 		northPanel.add(userTxt);
 		northPanel.add(userName);
 		northPanel.add(connectBtn);
+		northPanel.add(exitBtn);
 		//
 		southPanel.add(sendText);
 		southPanel.add(sendBtn);
@@ -88,7 +88,7 @@ public class FrameClient extends JFrame implements ActionListener{
 		//添加按钮事件
 		connectBtn.addActionListener(this);
 		sendBtn.addActionListener(this);
-		
+		exitBtn.addActionListener(this);
 		
 		add(northPanel, BorderLayout.NORTH);
 		add(southPanel, BorderLayout.SOUTH);
@@ -96,7 +96,7 @@ public class FrameClient extends JFrame implements ActionListener{
 		add(centerPanel, BorderLayout.CENTER);
 		
 		//设置窗口
-		this.setBounds(200, 100, 600, 300);
+		this.setBounds(200, 100, 650, 300);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -121,6 +121,7 @@ public class FrameClient extends JFrame implements ActionListener{
 				//启动客户线程
 				client.start();
 				connectBtn.setEnabled(false);
+				exitBtn.setEnabled(true);
 				JOptionPane.showMessageDialog(null, "客户端已经连接上服务器！");
 			}
 		}
@@ -141,6 +142,14 @@ public class FrameClient extends JFrame implements ActionListener{
 					sendText.setText("");
 				}
 			}
+		}
+		
+		if(e.getSource() == exitBtn) {
+			client = null;
+			connectBtn.setEnabled(true);
+			exitBtn.setEnabled(false);
+			userNames.clear();
+			reFresh(null);
 		}
 		
 	}

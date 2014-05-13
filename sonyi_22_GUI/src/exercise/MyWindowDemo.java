@@ -62,7 +62,7 @@ public class MyWindowDemo {
 			}	
 		});
 		
-		tField.addKeyListener(new KeyAdapter() {
+		tField.addKeyListener(new KeyAdapter() {//回车出发事件
 			public void keyPressed(KeyEvent e){
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					showdir();
@@ -88,7 +88,7 @@ public class MyWindowDemo {
 			tField.setText(null);
 		}
 		else {
-			d = new Dialog(frame, "提示信息--self",true);
+			d = new Dialog(frame, "提示信息--self",true);//自定义弹窗信息
 			d.setBounds(400,200,240,100);
 			d.setLayout(new FlowLayout());
 			Label label = new Label();

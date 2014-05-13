@@ -21,7 +21,7 @@ public class MouseAndKeyEvent {
 		init();
 	}
 	
-	public void init(){
+	public void init(){//初始化界面
 		frame = new Frame("my Frame");
 		frame.setBounds(300,100,600,500);
 		frame.setLayout(new FlowLayout());
@@ -33,7 +33,7 @@ public class MouseAndKeyEvent {
 		frame.setVisible(true);	
 	}
 	
-	public void myEvent(){
+	public void myEvent(){//监听事件
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
@@ -48,7 +48,6 @@ public class MouseAndKeyEvent {
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount() == 2)
 					System.out.println("鼠标双击");
-					//System.out.println("点击鼠标");
 			}
 		});
 		
@@ -76,9 +75,7 @@ public class MouseAndKeyEvent {
 					e.consume();//如果条件不符合，事件不会按照默认方法处理(取消事件)
 				}
 			}
-		});
-		
-		
+		});	
 	}
 	
 	public static void main(String[] args) {

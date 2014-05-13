@@ -9,8 +9,7 @@ import sonyi.util.Global;
 
 public class Ground {
 	public static int[][] rocks = new int[Global.WIDTH][Global.HEIGHT];
-	public Ground() {
-		// TODO Auto-generated constructor stub
+	public Ground() {//初始化石头
 		for(int x = 0; x < Global.WIDTH; x++){//1代表石头，0代表没有东西
 			for(int y = 0; y < Global.HEIGHT; y++){
 				rocks[x][0] = 1;
@@ -19,7 +18,7 @@ public class Ground {
 		}
 	}
 	
-	public boolean isSnakeEatRock(Snake snake){
+	public boolean isSnakeEatRock(Snake snake){//判断蛇是否吃到石头
 		System.out.println("Ground's isSnakeEatRock");
 		for(int x = 0; x < Global.WIDTH; x++){
 			for(int y = 0; y < Global.HEIGHT; y++){
@@ -32,7 +31,7 @@ public class Ground {
 		return false;
 	}
 	
-	public Point getPoint(){		
+	public Point getPoint(){	//产生新坐标	
 		Random random = new Random();
 		int x = 0, y = 0;	
 		do{		
@@ -43,7 +42,7 @@ public class Ground {
 	}
 
 	
-	public void drawMe(Graphics g){
+	public void drawMe(Graphics g){//在画板上画出石头地图
 		System.out.println("Ground's drawMe");
 		g.setColor(Color.black);
 		for(int x = 0; x < Global.WIDTH; x++){
