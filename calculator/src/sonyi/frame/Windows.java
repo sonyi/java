@@ -14,6 +14,7 @@ public class Windows {
 	JButton[][] button;
 	JTextField upView,downView;
 	double sum;
+	String oldOperator = "",newOperator = "";
 	public static void main(String[] args) {
 		new Windows();
 	}
@@ -167,15 +168,58 @@ public class Windows {
 			}
 		});
 		
+		button[4][3].addActionListener(new ActionListener() {//加法运算
+			public void actionPerformed(ActionEvent e) {
+				count("+");
+			}
+		});
+		
 		button[3][3].addActionListener(new ActionListener() {//减法运算
 			public void actionPerformed(ActionEvent e) {
 				count("-");
 			}
 		});
 	
-		button[4][3].addActionListener(new ActionListener() {//加法运算
+		
+		button[2][3].addActionListener(new ActionListener() {//乘法运算
 			public void actionPerformed(ActionEvent e) {
-				count("+");
+				count("*");
+			}
+		});
+	
+		button[1][3].addActionListener(new ActionListener() {//除法运算
+			public void actionPerformed(ActionEvent e) {
+				count("/");
+			}
+		});
+		
+		button[4][4].addActionListener(new ActionListener() {//等号
+			public void actionPerformed(ActionEvent e) {
+				count(oldOperator);
+				upView.setText("");
+				downView.setText(sum + "");
+				sum = 0;
+			}
+		});
+		
+		button[0][4].addActionListener(new ActionListener() {//根号
+			public void actionPerformed(ActionEvent e) {
+				count("√");
+			}
+		});
+	
+		button[1][4].addActionListener(new ActionListener() {//百分号
+			public void actionPerformed(ActionEvent e) {
+				count("/");
+			}
+		});
+		
+		button[2][4].addActionListener(new ActionListener() {//分数
+			public void actionPerformed(ActionEvent e) {
+				count(oldOperator);
+				upView.setText("");
+				downView.setText(sum + "");
+				sum = 0;
 			}
 		});
 		
@@ -183,19 +227,49 @@ public class Windows {
 	}
 	
 	public void count(String operator){//运算方法
+		
 		String line = downView.getText();
-		if(!(sum + "").equals(line)){
+		double record = Double.parseDouble(line);
+		if((sum + "").equals(line)){
+			if(!oldOperator.equals(operator)){
+				upView.setText(upView.getText().substring(0,upView.getText().length() -1) + operator);
+				oldOperator = operator;
+			}
+		}else if("√".equals(operator)){
+			upView.setText(upView.getText() + "sqrt(" + line + ")");
+			double rec = Math.sqrt(record);
+			downView.setText(rec + "");
+
+		}else{
 			upView.setText(upView.getText() + line + operator);
-			double record = Double.parseDouble(line);
-			if("+".equals(operator)){
+			if("+".equals(oldOperator)){
 				sum += record;
 			}
-			if("-".equals(operator)){
+			if("-".equals(oldOperator)){
 				sum -= record;
 			}
+			if("*".equals(oldOperator)){
+				sum *= record;
+			}
+			if("/".equals(oldOperator)){
+				sum /= record;
+			}
+			if("".equals(oldOperator)){
+				sum = record;
+			}
 			downView.setText(sum + "");
+			oldOperator = operator;
 		}
 		
+		
+		
+		if("%".equals(operator)){
+			
+		}
+		
+		if("1/x".equals(operator)){
+			
+		}
 	}
 	
 	public void addDownText(String s){//输入框输入信息
