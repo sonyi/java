@@ -1,0 +1,367 @@
+一、语法基础
+
+   标识符 --概念？？？
+     类名、方法名、变量名
+     类名：首写大写
+     方法名：首写小写
+     常量：建议都用大写
+
+      final static int ID=123;
+
+   Java严格区分大小写
+      
+
+
+   1.变量、常量
+   2.八大类型 byte/char/int/short/long/double/float/boolean
+     byte 范围  
+     char 占2个字节
+     boolean  true/false 不能跟任何类型做转换
+     long 建议尾部加L
+     float 尾部必须加f
+
+     输入一个整数，默认是int
+     输入一个有小数点的数，默认是double
+
+     类型转换
+       a.自动转换(小到大) byte、char、short > int > long, float > double
+       b.强制类型转换（从大到小）
+          double d = 3.14;
+          int i = (int)d; 
+          float f = (float)(d - 2);  
+
+          2.5 + 2.3f + 3   -->double
+
+          byte b1 = 9, b2 = 2;
+          byte b3 = (byte)(b1 + b2 - 1);
+
+          char c = 'A';
+          int i2 = c;//65
+          
+       c.进制转换  二进制、八进制、十六进制
+
+       d.运算符、位运算
+
+       e.数组 一维数组、二维数组
+
+          数组的下标从0开始到length-1
+          char[] arr = new char[10];
+          
+          char[][] arr2 = new char[3][];//行必须有
+          System.out.println(arr2[0]);//这句话肯定会报空指针异常
+          arr2[0] = new char[3];//正确
+
+          byte[][] arr3 = new byte[3][3];//3行3列
+
+       f.顺序结构、选择结构、循环结构
+ 
+       g.break  continue  return
+
+       h.方法
+
+        权限修饰符 修饰符 返回类型  方法名（形参）
+        public    static void     main(String[] args) {
+          
+         [return]
+
+        }
+
+
+        public int getAge() {
+          return 19;
+        }
+
+        public void setAge(int a) {
+
+        }
+
+
+        //调用setAge()方法
+
+         setAge(20);//实参
+
+       i.书写规范
+       
+         //   单行注释
+         /*  */  多行注释
+         /***    */   文档注释
+        
+
+二、面向对象
+
+    三大特征：封装、继承、多态
+
+    什么是类，什么是对象？类与对象的关系？
+
+    instanceof  判断对象是否是类的实例化
+
+    1.构造方法
+    2.方法重载
+    3.变量
+      成员变量：对象变量和类变量(static修饰的变量)
+      局部变量: 方法里面的变量、形参、代码块里面的变量
+
+      public class AAA {
+         public int age;  //对象变量
+         public static String name;  //类变量
+
+
+      }
+
+      public class Test {
+          public static void main(String[] args) {
+             AAA.name = "lishi"; //类名.变量名
+             AAA.age = 12; //错误 对象变量
+             AAA a = new AAA();
+             a.age = 12; // 对象名.变量名
+
+          }
+      }
+
+    4.this static 的用法
+
+       public class BBB {
+           private int age;
+           public BBB(int age) {
+             this.age = age;
+           }
+
+       }
+
+    5.继承  关键字 extends
+      public class A {
+          /*
+          public A(){
+            System.out.println("A");
+          }*/
+          public A(String s, int a){
+            System.out.println(s);
+          }
+
+      }
+
+      public class B extends A{
+         public B() {
+            super("hello", 12);
+            System.out.println("B");
+         }
+
+       }
+
+      public class Test {
+         public static void main(String[] args) {
+           new B();
+         }
+      }
+
+     super关键字  super.父类属性  super.父类的方法
+
+     方法重写？
+
+   6.抽象类   关键字 abstract
+
+   7.接口  关键字 interface  implements
+
+   8.final关键字
+
+   9.Object类 所有类的父类
+
+     toString()
+
+     equals()
+
+   10.多态
+     方法重载、方法重写 
+     向上转型：子类赋给父类
+     向下转型：父类赋给子类（条件：要先有向上才有向下）
+
+     public class Animal {
+        public void cry() {
+
+        }
+     }
+  
+     public class People extends Animal {
+        public void cry() {
+           System.out.println("people crying");
+        }
+        public void walk() {
+           System.out.println("people walking");
+        }
+     }
+
+     public class Pig extends Animal { 
+        public void cry() {
+           System.out.println("pig crying");
+        }
+     }
+
+     public class Test {
+        public static void print(Animal a) {
+           a.cry();
+           if(a instanceof People) {
+              People p = (People)a;//向下转型
+              p.walk();
+           }
+        }
+
+        public static void main(String[] args) {
+           People p = new People();
+           Pig pig = new Pig();
+
+           print(p);//向上转型
+           print(pig);
+        }
+
+     }
+
+   11.内部类
+       
+
+三、常用类
+
+   1. String
+   2. StringBuffer
+   3. StringBuilder
+
+   三者的区别？？？
+
+   String s1 = "ni hao";
+   StringBuffer sb1 = new StringBuffer(s1);
+   StringBuilder sb2 = new StringBuilder();
+
+   String s2 = new String("ni hao"); //创建了2个对象
+   System.out.println(s1==s2);//false
+
+   常用方法：
+
+    indexOf()  查找
+    replace()  替换
+    charAt()   取字符
+    toCharArray()  转字符数组
+    getBytes()  转字节数组
+    length()   长度
+
+
+四、容器
+    1.Set
+    2.List
+    3.Map
+
+   常用方法：
+    add();
+    remove();
+    clear();
+    contains(); 
+    iterator()
+    size() 
+    toArray()    --针对List
+
+   Map常用方法：
+    put(key,value);
+    get(Object key);
+    keySet() 
+
+
+五、异常
+
+    try...catch...finally
+
+    pubic int rev() {
+
+       int flag = 0;
+       try{
+          flag = 1;
+          return flag;
+       }catch(Exception e){
+          flag = 2;
+          return flag;
+       } finally {
+          flag = 3;
+       }
+    }
+
+  Exception
+
+     throw  : 抛出异常
+     throws ：在方法上声明异常
+
+     public void m1() throws Exception {
+        throw new Exception("描述信息");
+     }
+
+  自定义异常
+
+   public class MyException extends Exception {
+
+   }
+
+
+
+六、IO流
+   字节流  InputStream  OutputStream
+   字符流  Reader  Writer
+   缓冲流  BufferedInputStream  BufferedOutputStream
+           BufferedReader  BufferedWriter
+   转换流  InputStreamReader  OutputStreamWriter
+   打印流  PrintStream  PrintWriter
+   序列化  ObjectOutputStream
+   反序列化 ObjectInputStream
+
+
+七、多线程
+    理解线程与进程的区别？？
+    线程体 run();
+    线程启动 start();
+    线程的创建方式有两种：
+      1.继承Thread
+      2.实现Runnable接口
+
+      public class MyThread1 extends Thread {
+
+          public void run() {
+            System.out.println("hahaha.....");
+          }
+
+          poublic static void main(String[] args) {
+            //创建线程
+            MyThread1 my1 = new MyThread1();
+            //启动线程
+            my1.start();
+          }
+      }
+
+      public class MyThread2 implements Runnable {
+
+          public void run() {
+            System.out.println("hahaha.....");
+          }
+
+          poublic static void main(String[] args) {
+            //创建Runnable对象
+            MyThread2 my2 = new MyThread2();
+            //创建线程
+            Thread t1 = new Thread(my2);
+            //启动线程
+            t1.start();
+          }
+      }
+
+   线程的声明周期？？？
+
+   线程同步 关键字 synchronized
+
+   同步和异步的区别？？
+
+   wait()，notify(), notifyAll()  必须放在同步当中
+   
+   同步有两种方式：
+     1.同步方法
+     2.同步代码块
+
+
+八、网络编程
+
+
+九、GUI
+

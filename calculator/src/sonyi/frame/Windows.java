@@ -14,7 +14,7 @@ public class Windows {
 	JButton[][] button;
 	JTextField upView,downView;
 	double sum;
-	String oldOperator = "",newOperator = "";
+	String oldOperator = "",markOperator = "";
 	public static void main(String[] args) {
 		new Windows();
 	}
@@ -44,7 +44,6 @@ public class Windows {
 		JPanel operate = new JPanel(new GridLayout(5,5,4,3));
 		operate.setBounds(5, 80, 290, 200);
 		
-		//operate.setBackground(Color.cyan);
 		button = new JButton[5][5];
 		String[][] lable = {{"←","CE","C","±","√"},{"7","8","9","/","%"},{"4","5","6","*","1/x"},{"1","2","3","-",""},{"0","",".","+","="}};
 		for(int i = 0; i < 5; i++){
@@ -53,8 +52,7 @@ public class Windows {
 				operate.add(button[i][j]);
 			}
 		}
-		
-		
+
 		window.add(view);
 		window.add(operate);
 		myEvent();
@@ -210,16 +208,13 @@ public class Windows {
 	
 		button[1][4].addActionListener(new ActionListener() {//百分号
 			public void actionPerformed(ActionEvent e) {
-				count("/");
+				count("%");
 			}
 		});
 		
 		button[2][4].addActionListener(new ActionListener() {//分数
 			public void actionPerformed(ActionEvent e) {
-				count(oldOperator);
-				upView.setText("");
-				downView.setText(sum + "");
-				sum = 0;
+				count("1/x");
 			}
 		});
 		
@@ -227,54 +222,71 @@ public class Windows {
 	}
 	
 	public void count(String operator){//运算方法
-		
 		String line = downView.getText();
 		double record = Double.parseDouble(line);
-		if((sum + "").equals(line)){
+		
+		if("√".equals(operator) || "%".equals(operator) || "1/x".equals(operator)){
+			 double rec = 0;
+			 switch (operator) {
+				case "√":
+					upView.setText(upView.getText() + "sqrt(" + line + ")");
+					rec = Math.sqrt(record);
+					break;
+				case "%":
+					rec = (sum * record/100);
+					upView.setText(upView.getText() + rec);
+					break;
+				case "1/x":
+					upView.setText(upView.getText() + "reciproc(" + line + ")");
+					rec = 1/record;
+					break;
+				default:
+					break;
+			}
+			downView.setText(rec + "");
+			markOperator = operator;
+		}
+		else if((sum + "").equals(line)){
 			if(!oldOperator.equals(operator)){
 				upView.setText(upView.getText().substring(0,upView.getText().length() -1) + operator);
 				oldOperator = operator;
 			}
-		}else if("√".equals(operator)){
-			upView.setText(upView.getText() + "sqrt(" + line + ")");
-			double rec = Math.sqrt(record);
-			downView.setText(rec + "");
-
-		}else{
-			upView.setText(upView.getText() + line + operator);
-			if("+".equals(oldOperator)){
-				sum += record;
+		}
+		else{
+			switch (oldOperator) {
+				case "+":
+					sum += record;
+					break;
+				case "-":
+					sum -= record;
+					break;
+				case "*":
+					sum *= record;
+					break;
+				case "/":
+					sum /= record;
+					break;	
+				case "":
+					sum = record;
+					break;
+				default:
+					break;
 			}
-			if("-".equals(oldOperator)){
-				sum -= record;
-			}
-			if("*".equals(oldOperator)){
-				sum *= record;
-			}
-			if("/".equals(oldOperator)){
-				sum /= record;
-			}
-			if("".equals(oldOperator)){
-				sum = record;
+			
+			if("√".equals(markOperator) || "%".equals(markOperator) || "1/x".equals(markOperator)){
+				upView.setText(upView.getText() + operator);
+				markOperator = "";
+			}else {
+				upView.setText(upView.getText() + line + operator);
 			}
 			downView.setText(sum + "");
 			oldOperator = operator;
-		}
-		
-		
-		
-		if("%".equals(operator)){
-			
-		}
-		
-		if("1/x".equals(operator)){
-			
 		}
 	}
 	
 	public void addDownText(String s){//输入框输入信息
 		String line = downView.getText();
-		if("0".equals(line)){
+		if("0".equals(line) && !line.contains(".")){
 			if(!("0".equals(s))){
 				downView.setText(s);
 			}
@@ -285,5 +297,4 @@ public class Windows {
 		}
 	}
 }
-
 
