@@ -64,7 +64,7 @@ public class Test {
 		public void run(){
 			while(flag){
 				for(String s : n){
-					System.out.println(s);
+					//System.out.println(s);
 					name.setText(s);
 					if(!flag){
 						break;
