@@ -32,8 +32,7 @@ public class UserFrame extends JFrame{
 	public void init(){
 		setTitle("登入界面");
 		setLayout(null);
-		setBounds(200, 100, 400, 300);
-		
+
 		JLabel nameLabel = new JLabel("用户名：");
 		nameLabel.setBounds(70, 50, 60, 30);
 		userName = new JTextField("zhangsan");
@@ -56,9 +55,10 @@ public class UserFrame extends JFrame{
 		add(exit);
 		
 		myEvent();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.dispose();
+		setSize(400, 300);
+		setLocationRelativeTo(null);
 		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void myEvent(){
@@ -78,12 +78,8 @@ public class UserFrame extends JFrame{
 		});
 		
 		exit.addActionListener(new ActionListener() {	
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				//System.exit(0);
-				
+				System.exit(0);
 			}
 		});
 	}
