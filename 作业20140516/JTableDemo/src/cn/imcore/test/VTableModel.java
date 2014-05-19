@@ -43,7 +43,4 @@ public class VTableModel extends AbstractTableModel{
 		// TODO Auto-generated method stub
 		return rowsdata.get(rowIndex).get(columnIndex);
 	}
-
-	
-
 }
