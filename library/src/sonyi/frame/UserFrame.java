@@ -1,10 +1,19 @@
 package sonyi.frame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Vector;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import sonyi.data.OperateFile;
+import sonyi.util.FileLoad;
 
 public class UserFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -15,7 +24,12 @@ public class UserFrame extends JFrame{
 		init();
 	}
 	
-	public void init(){
+	public static void main(String[] args){
+		new UserFrame();
+	}
+	
+	
+	public void init(){//初始化登入界面
 		setTitle("登入界面");
 		setLayout(null);
 		setBounds(200, 100, 400, 300);
@@ -41,7 +55,46 @@ public class UserFrame extends JFrame{
 		add(login);
 		add(exit);
 		
+		myEvent();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+	}
+	
+	public void myEvent(){//设置监听事件
+		login.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				String name = userName.getText();
+				String pass = new String(password.getPassword());
+				
+				if(checkPassword(name, pass)){//验证用户信息
+					new DataFrame();
+					setVisible(false);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "账号或密码错误");
+				}
+			}
+		});
+		
+		exit.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {//退出系统
+				System.exit(0);
+			}
+		});
+	}
+	
+	public boolean checkPassword(String name,String password){//验证用户信息
+		Vector<String> user = new Vector<>();
+		user.add(name);
+		user.add(password);
+		try {
+			Vector<Vector<String>> userList = new OperateFile().readOperate(FileLoad.file);//获取用户列表
+			if(userList.contains(user)){
+				return true;
+			}	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
