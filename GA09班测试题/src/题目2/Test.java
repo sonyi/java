@@ -20,7 +20,8 @@ public class Test {
 	
 	public void init(){
 		JFrame frame = new JFrame("点名系统");
-		frame.setBounds(200, 200, 300, 200);
+		frame.setSize(300, 200);
+		frame.setLocationRelativeTo(null);
 		frame.setLayout(null);
 		
 		name = new JTextField();

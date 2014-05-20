@@ -1,0 +1,51 @@
+create table books(bookID int,bookName varchar(50),bookPrice decimal(6,2));
+insert into books values(1,'java编程思想',50);
+insert into books(bookID,bookName,bookPrice) values(3,'计算机语言',70);
+update books set bookName='哈哈好的',bookPrice=47 where bookID=2;
+update books set bookName='天龙八部' where bookID=2;
+update books set bookID=4,bookName='哈好的' where bookPrice is null;
+
+insert into books(bookID,bookPrice) values(4,20);
+
+
+create table person(
+	pID int not null,
+	pName varchar(50),
+	pAge int,
+	pSex varchar(2),
+	primary key (pID));
+	
+insert into person(pId,pname,page,psex)
+	values(1,'zhangsan',20,'男');
+insert into person
+	values(2,'lisi',25,'男');
+insert into person(pId,pname,psex)
+	values(3,'wangwu','男');
+insert into person(pId,pname,page)
+	values(4,'zhangsan',20);
+insert into person
+	values(5,'lisi',25,'男');
+insert into person(pId,pname,page)
+	values(6,'zhangsan',20);
+insert into person(pId,pname,page)
+	values(7,'zhangsan',20);	
+	
+	
+delete from person where psex is null;	
+delete from person where pid=7;
+
+
+update person set pAge=18,pSex='女'
+	where pID=3;
+update person set psex='男',pname='zhaoliu'
+	where pid=4;
+	
+select * from person 
+	order by page;
+select * from person
+	where pname is not null
+	order by pname desc;
+
+
+
+	

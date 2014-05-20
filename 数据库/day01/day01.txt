@@ -1,0 +1,112 @@
+数据库包括：
+Oracle, Sybase, SQL Server, DB2, Access 等等。
+
+SQL DML 和 DDL
+可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。
+1.
+SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。
+查询和更新指令构成了 SQL 的 DML 部分：
+SELECT - 从数据库表中获取数据
+UPDATE - 更新数据库表中的数据
+DELETE - 从数据库表中删除数据
+INSERT INTO - 向数据库表中插入数据
+
+2.
+SQL 的数据定义语言 (DDL) 部分使我们有能力创建或删除表格。我们也可以定义索引（键），规定表之间的链接，以及施加表间的约束。
+SQL 中最重要的 DDL 语句:
+CREATE DATABASE - 创建新数据库
+ALTER DATABASE - 修改数据库
+CREATE TABLE - 创建新表
+ALTER TABLE - 变更（改变）数据库表
+DROP TABLE - 删除表
+CREATE INDEX - 创建索引（搜索键）
+DROP INDEX - 删除索引
+
+-----------------------------
+
+常用的操作
+ 
+   显示数据库  show databases;
+   创建数据库  create database 数据库名;
+   删除数据库  drop database 数据库名;
+   打开数据库  use 数据库名;
+   
+   显示表      show tables;
+   显示表结构信息  desc 表名;
+
+   创建表 
+               create table 表名(
+                   列名1  字段类型  字段约束,
+                   列名2  字段类型  字段约束,
+                   列名3  字段类型  字段约束,
+                   ...
+                   列名n  字段类型  字段约束
+               );
+ 
+   删除表  drop table 表名；
+
+  举例：
+
+   create database mytest;
+   use mytest;
+
+   create table books(
+      bookId  int,
+      bookName varchar(50),
+      bookPrice decimal(8,2)
+   );
+
+   drop table books;
+
+  --往表里面加入数据
+  格式：
+    insert into 表名(列名1,列名2,...,列名n)
+      values(值1,值2,...,值n);
+
+    insert into 表名 values(值1,值2,...,值n);
+
+    insert into 表名(列名1,列名2) values(值1,值2);
+
+
+  insert into books(bookId,bookName,bookPrice)
+     values(1,'java编程思想',100);
+  insert into books(bookId,bookName,bookPrice)
+     values(2,'java习题集',15);
+  insert into books(bookId,bookName,bookPrice)
+     values(3,'java核心技术',50);
+
+  insert into books values(4,'android应用',60);
+  insert into books(bookId,bookName) values(5,'android开发');
+
+  --查询表数据
+    select * from 表名 where 条件表达式;
+  
+    select 列名 from 表名 where 条件表达式;
+
+   select * from books where 1<>1;
+   select * from books where 1=1;
+   select * from books where bookPrice>50;
+
+  --修改表数据
+    update 表名 set 列名1=值1,列名2=值2
+      where 条件表达式；
+
+
+  update books set bookprice=150
+      where bookId=1 and bookName='java习题集';
+
+  update books set bookprice=150
+      where bookId=1 or bookName='java习题集';
+
+  --删除表数据
+    delete from 表名
+       where 条件表达式;
+
+    delete from books where bookPrice is null;
+
+
+
+
+
+
+
