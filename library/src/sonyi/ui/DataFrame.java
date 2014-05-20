@@ -18,7 +18,6 @@ public class DataFrame extends JFrame{
 	JButton addButton,modifyButton,deleButton;
 	public static DefaultTableModel model;
 	public static JTable table;
-	
 	public static Vector<String> names;
 	public static Vector<Vector<String>> data;
 	private static final long serialVersionUID = 2L;
@@ -34,7 +33,6 @@ public class DataFrame extends JFrame{
 		setLocationRelativeTo(null);//再设置居中，（排版顺序有很大关系）
 		
 		model = new DefaultTableModel(getdata(), getHead());
-		
 		table = new JTable(model);
 		table.setBounds(8, 5, 570, 280);
 		table.getTableHeader().setReorderingAllowed(false);//固定列
