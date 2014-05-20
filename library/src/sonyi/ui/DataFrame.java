@@ -87,8 +87,11 @@ public class DataFrame extends JFrame{
 				}else {
 					int rec = JOptionPane.showConfirmDialog(null, "是否删除该选中行！");//返回值：0代表是，1代表否，2代表取消
 					if(rec == 0){
+						for(int i = row+1; i < table.getRowCount(); i++){//删除时改变删除行之后的编号(编号减一)
+							DataFrame.model.setValueAt(i, i, 0);
+						}
 						@SuppressWarnings("unchecked")
-						Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(row);
+						Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(row);//获取删除行内容
 						Vector<String> delData = new Vector<>();
 						for(int i = 1; i < getData.size(); i++){//去掉编号
 							delData.add(getData.get(i));

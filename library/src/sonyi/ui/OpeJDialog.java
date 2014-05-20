@@ -71,9 +71,9 @@ public class OpeJDialog extends JDialog{
 			@SuppressWarnings("unchecked")
 			Vector<String> v = (Vector<String>)DataFrame.model.getDataVector().get(rowSelect);
 			System.out.println(v.get(0));
-			bookName.setText(v.get(0));
-			auth.setText(v.get(1));
-			count.setText(v.get(2));	
+			bookName.setText(v.get(1));
+			auth.setText(v.get(2));
+			count.setText(v.get(3));	
 		}
 		
 		myEvent();
@@ -109,15 +109,22 @@ public class OpeJDialog extends JDialog{
 					rowSelect = DataFrame.table.getSelectedRow();
 					@SuppressWarnings("unchecked")
 					Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(rowSelect);
+					Vector<String> vec = new Vector<>();
+					for(int i = 1; i < getData.size(); i++){//去除编号
+						vec.add(getData.get(i));
+					}
 					Vector<String> reviseData = saveMessage();
 					if(reviseData == null){
 						JOptionPane.showMessageDialog(null,"内容为空或未修改");
 					}else {
-						DataFrame.model.removeRow(rowSelect);
-						DataFrame.model.addRow(reviseData);
-						setVisible(false);
+						for(int i = 0; i < reviseData.size(); i++){
+							DataFrame.model.setValueAt(reviseData.get(i), rowSelect, i+1);
+						}
+						//DataFrame.model.removeRow(rowSelect);
+						//DataFrame.model.addRow(reviseData);
+						disJDiolog();
 						try {
-							new OperateFile().reviseFile(FileLoad.dataFile, getData, reviseData);
+							new OperateFile().reviseFile(FileLoad.dataFile, vec, reviseData);
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
