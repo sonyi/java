@@ -1,0 +1,79 @@
+一、查询
+
+1.limit  取记录数
+   --对员工表进行工资的降序排序并取前2条记录
+   select * from staff order by salary desc limit 2;
+
+2.操作符  like  between  in
+
+  通配符: 
+       % 替代一个或多个字符
+       _ 仅替代一个字符
+
+
+  --员工表中姓名是否包含有'明'
+  select * from staff where sName like '%明%';
+  select * from staff where sName like '明%';
+
+  select * from staff where sName like '_明%';
+
+  --员工表中工资是否有'5000,6000'
+  select * from staff where salary=5000 or salary=6000;
+  select * from staff where salary in(5000,6000);
+  
+  --操作符 BETWEEN ... AND 会选取介于两个值之间的数据范围
+  select * from staff where salary between 5000 and 7000;
+
+
+------------------------------------------
+二、对表结构的操作（ALTER TABLE 语句）
+1.
+如需在表中添加列，请使用下列语法:
+ALTER TABLE table_name
+ADD column_name datatype
+2.
+要删除表中的列，请使用下列语法：
+ALTER TABLE table_name 
+DROP COLUMN column_name
+3.
+要改变表中列的数据类型，请使用下列语法：
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype
+4.
+要修改表中的列名，请使用下列语法：
+ALTER TABLE table_name
+change 原列名 新列名 datatype
+ 
+
+--员工表添加一个列
+alter table staff add birthday date;
+alter table staff add note varchar(50);
+alter table staff add bming varchar(50);  --别名
+
+--员工表删除一个列
+alter table staff drop note;
+
+--员工表修改列名
+alter table staff change bming alis_name varchar(50);
+
+
+5.
+AUTO INCREMENT 字段
+我们通常希望在每次插入新记录时，自动地创建主键字段的值。
+
+--给主键添加自增
+alter table staff change sId sId int auto_increment;
+
+insert into staff(sName,sSex,salary,depId,birthday)
+      values('谢婷婷','女',5500,1002,'1991-05-05');
+
+
+  create table student(
+     sId int not null auto_increment primary key,
+     sName varchar(30),
+     sex char(1)
+  );
+
+  insert into student(sName,sex) values('aaaa', 'F');
+  insert into student(sName,sex) values('bbbb', 'F');
+  insert into student(sName,sex) values('cccc', 'M');
