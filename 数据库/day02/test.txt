@@ -1,0 +1,77 @@
+一、创建数据库：
+create database SchoolDB;
+use schooldb;
+
+二、创建表：
+1、学生表tblStudent
+	create table tblStudent(
+		sid int not null auto_increment,
+		sname varchar(30) not null,
+		sage date not null,
+		ssex varchar(2) not null,
+		Saddr varchar(200) default '不详',
+		primary key (sid)
+	);
+	alter table tblstudent auto_increment=1001;
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('张三','1989-06-15','男','厦门');
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('李四','1987-09-18','男','北京');
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('王五','1992-10-15','男','深圳');
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('小白','1993-02-14','女','南京');
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('小王','1986-06-15','女','厦门');
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('周七','1981-05-28','男','湖北');
+	insert into tblstudent(sname,sage,ssex)
+		values('赵六','1989-06-15','男');
+	insert into tblstudent(sname,sage,ssex,saddr)
+		values('小九','1993-06-05','女','厦门');
+	
+	select * from tblstudent;
+	drop table tblstudent;
+	
+
+4、教师表tblTeacher：
+	create table tblteacher(
+		tid int not null auto_increment,
+		tname varchar(30) not null,
+		primary key (tid)
+	);
+	alter table tblteacher auto_increment=2001;
+	
+	insert into tblteacher(tname)
+		values('李老师');
+	insert into tblteacher(tname)
+		values('王老师');
+	insert into tblteacher(tname)
+		values('张老师');
+	insert into tblteacher(tname)
+		values('周老师');
+	
+	select * from tblteacher;
+	
+2、课程表tblCourse：
+	create table tblcourse(
+		cid varchar(6),
+		cname varchar(20) not null,
+		tid int not null,
+		unique (cname),
+		primary key (cid)
+	);
+
+	drop table tblcourse;
+
+
+
+
+
+
+
+
+
+
+
+

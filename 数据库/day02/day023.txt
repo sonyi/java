@@ -1,0 +1,249 @@
+一、查询
+
+1.limit  取记录数
+   --对员工表进行工资的降序排序并取前2条记录
+   select * from staff order by salary desc limit 2;
+
+2.操作符  like  between  in
+
+  通配符: 
+       % 替代一个或多个字符
+       _ 仅替代一个字符
+
+
+  --员工表中姓名是否包含有'明'
+  select * from staff where sName like '%明%';
+  select * from staff where sName like '明%';
+
+  select * from staff where sName like '_明%';
+
+  --员工表中工资是否有'5000,6000'
+  select * from staff where salary=5000 or salary=6000;
+  select * from staff where salary in(5000,6000);
+  
+  --操作符 BETWEEN ... AND 会选取介于两个值之间的数据范围
+  select * from staff where salary between 5000 and 7000;
+
+
+------------------------------------------
+二、对表结构的操作（ALTER TABLE 语句）
+1.
+如需在表中添加列，请使用下列语法:
+ALTER TABLE table_name
+ADD column_name datatype
+2.
+要删除表中的列，请使用下列语法：
+ALTER TABLE table_name 
+DROP COLUMN column_name
+3.
+要改变表中列的数据类型，请使用下列语法：
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype
+4.
+要修改表中的列名，请使用下列语法：
+ALTER TABLE table_name
+change 原列名 新列名 datatype
+ 
+
+--员工表添加一个列
+alter table staff add birthday date;
+alter table staff add note varchar(50);
+alter table staff add bming varchar(50);  --别名
+
+--员工表删除一个列
+alter table staff drop note;
+
+--员工表修改列名
+alter table staff change bming alis_name varchar(50);
+
+
+5.
+AUTO INCREMENT 字段
+我们通常希望在每次插入新记录时，自动地创建主键字段的值。
+
+--给主键添加自增
+alter table staff change sId sId int auto_increment;
+
+insert into staff(sName,sSex,salary,depId,birthday)
+      values('谢婷婷','女',5500,1002,'1991-05-05');
+
+
+  create table student(
+     sId int not null auto_increment primary key,
+     sName varchar(30),
+     sex char(1)
+  );
+
+  insert into student(sName,sex) values('aaaa', 'F');
+  insert into student(sName,sex) values('bbbb', 'F');
+  insert into student(sName,sex) values('cccc', 'M');
+
+6.
+IFNULL(列名,默认值)  对null做初始化
+
+  select birthday, ifnull(birthday,'1900-01-01') as birth from salary;
+
+7.别名 as
+
+  select sId as '人员ID',sName as '姓名',sSex as '性别' from staff;
+
+
+三、表之间的关联
+JOIN: 如果表中有至少一个匹配，则返回行
+LEFT JOIN: 即使右表中没有匹配，也从左表返回所有的行
+RIGHT JOIN: 即使左表中没有匹配，也从右表返回所有的行
+FULL JOIN: 只要其中一个表中存在匹配，就返回行
+UNION
+UNION ALL
+in
+
+ 姓名 部门名称 工资
+
+ staff.sName  depart.depName  staff.salary
+
+  select s.sName,d.depName,s.salary
+     from staff as s,depart as d
+     where s.depId is not null and s.depId=d.depId;
+
+  或  
+
+  1.内联  inner join
+
+   select 列名,列名,列名 from 表1
+     inner join 表2
+     on 表1.列名=表2.列名
+
+  ----举例
+  select s.sName,s.depId,d.depName,s.salary
+     from staff as s 
+     inner join depart as d 
+     on s.depId=d.depId
+     where s.depId is not null order by s.depId;
+
+
+   insert into depart values(1003,'市场部');
+   insert into depart values(1004,'广告部');
+   insert into depart values(1005,'财务部');
+
+   insert into staff(sName,sSex,salary,birthday) 
+         values('张三','男',4500,'1988-05-05');
+   insert into staff(sName,sSex,salary,birthday) 
+         values('小白','女',4500,'1984-05-05');
+
+  2.左关联：以左边为主，左边会全部显示，右边没有对应上的用null表示
+
+    select 列名,列名,列名 from 表1
+     left join 表2
+     on 表1.列名=表2.列名
+
+    select t2.depId,t2.depName,t1.sName,t1.sSex,t1.salary
+      from depart t2
+      left join staff t1
+      on t2.depId=t1.depId;
+
+    select t1.sName,t1.sSex,t1.salary,t2.depId,t2.depName
+      from staff t1
+      left join depart t2
+      on t2.depId=t1.depId;
+
+  3.右关联：以右边为主，右边会全部显示，左边没有对应上的用null表示
+     select 列名,列名,列名 from 表1
+      right join 表2
+      on 表1.列名=表2.列名
+
+    select t1.sName,t1.sSex,t1.salary,t2.depId,t2.depName
+      from staff t1
+      right join depart t2
+      on t2.depId=t1.depId;
+
+  4.全联  FULL JOIN 
+    select 列名,列名,列名 from 表1
+      full join 表2
+      on 表1.列名=表2.列名
+
+    select sName,sSex,salary,t2.depId,depName
+      from staff t1
+      FULL JOIN depart t2
+      on t2.depId=t1.depId;
+
+  5.UNION  UNION ALL
+     UNION: 操作符用于合并两个或多个 SELECT 语句的结果集。
+            重复数据会合并。
+
+     UNION ALL： 全部显示
+  
+    ---合并结果集
+     select sName,sSex from staff
+      union
+     select sName,sex from student;
+
+
+     select sName,sSex from staff
+      union all
+     select sName,sex from student;
+     
+     --查找员工表中部门ID有在部门表里面的信息
+    select * from staff where depId in(select depId from depart);
+     或者
+    select * from staff
+       where exists(select depId from depart
+                where depart.depId=staff.depId);
+
+四、函数
+
+AVG 函数返回数值列的平均值。NULL 值不包括在计算中。
+   --select avg(salary) from staff;
+
+SUM 函数返回数值列的总数（总额）。
+   --select sum(salary) from staff;
+
+COUNT() 函数返回匹配指定条件的行数。
+   --select count(sId) from staff;
+
+MAX 函数返回一列中的最大值。NULL 值不包括在计算中。
+   --select max(salary) from staff;
+
+MIN 函数返回一列中的最小值。NULL 值不包括在计算中。
+   --select min(salary) from staff;
+
+     select * from staff
+       where salary in(select min(salary) from staff);
+
+GROUP BY 语句用于结合合计函数，根据一个或多个列对结果集进行分组。
+   --求个部门每个月开销多少
+      select depId,sum(salary) as sumSalary from staff group by depId;
+
+在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与合计函数一起使用。
+   --在group by的基础之上，想求出开销大于1W有哪几个部门
+      select depId,sum(salary) as sumSalary,avg(salary)
+         from staff group by depId having sumSalary>10000;
+
+
+ROUND 函数用于把数值字段舍入为指定的小数位数。
+   select depId,sum(salary) as sumSalary,round(avg(salary),2) as avg
+         from staff group by depId having sumSalary>10000;
+
+
+五、视图
+
+ 创建视图：
+  create view view_name as
+     select语句;
+
+ 删除视图：
+  drop view view_name;
+
+
+ create view v_person as
+  select sId,sName,sSex from staff
+   union
+  select sId,sName,sex from student;
+
+ --select * from v_person
+
+
+
+
+   
+
+
