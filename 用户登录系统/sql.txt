@@ -1,0 +1,11 @@
+create database usersys;
+use usersys;
+
+create table user(
+   uId int not null auto_increment primary key,
+   uName varchar(50) not null,
+   uPwd  varchar(20)
+);
+
+insert into user(uName,uPwd) values('admin','admin');
+insert into user(uName,uPwd) values('test','123456');
