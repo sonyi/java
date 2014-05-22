@@ -1,0 +1,292 @@
+--创建数据库
+
+create database schooldb;
+use schooldb;
+
+--创建表
+
+create table tblStudent(
+  sId int not null auto_increment primary key,
+  sName varchar(50) not null,
+  sAge date not null,
+  sSex char(1) not null,
+  sAddr varchar(100) default '不详'
+);
+
+create table tblTeacher(
+  tId int not null auto_increment primary key,
+  tName varchar(50) not null
+
+);
+
+create table tblCourse(
+  cId char(6) not null primary key,
+  cName varchar(50) not null,
+  tId int not null
+);
+
+create table tblScore(
+  sId int not null,
+  cId char(6) not null,
+  score decimal(5,2) not null
+);
+
+
+--添加学生数据
+ALTER TABLE tblStudent AUTO_INCREMENT=1001;
+
+insert into tblStudent(sName,sAge,sSex)
+ values('小一','1990-05-03','男');
+insert into tblStudent(sName,sAge,sSex)
+ values('小二','1991-05-03','男');
+insert into tblStudent(sName,sAge,sSex)
+ values('小三','1992-05-03','女');
+insert into tblStudent(sName,sAge,sSex)
+ values('小四','1993-05-03','男');
+insert into tblStudent(sName,sAge,sSex)
+ values('小五','1994-05-03','女');
+insert into tblStudent(sName,sAge,sSex)
+ values('小六','1989-05-03','男');
+insert into tblStudent(sName,sAge,sSex)
+ values('小七','1991-06-03','男');
+insert into tblStudent(sName,sAge,sSex)
+ values('小八','1991-08-03','女');
+insert into tblStudent(sName,sAge,sSex)
+ values('小九','1994-08-03','男');
+
+--添加教师数据 （孔子、李白、叶平）
+ALTER TABLE tblTeacher AUTO_INCREMENT=2001;
+
+insert into tblTeacher(tName) values('李白');
+insert into tblTeacher(tName) values('叶平');
+insert into tblTeacher(tName) values('孔子');
+insert into tblTeacher(tName) values('庄子');
+insert into tblTeacher(tName) values('孟子');
+
+--添加课程数据
+insert into tblCourse values('KC0001','语文',2001);
+insert into tblCourse values('KC0002','数学',2002);
+insert into tblCourse values('KC0003','英语',2003);
+insert into tblCourse values('KC0004','哲学',2004);
+insert into tblCourse values('KC0005','政治',2005);
+insert into tblCourse values('KC0006','论语',2003);
+
+--添加学生数据
+insert into tblScore values(1001,'KC0001',60);
+insert into tblScore values(1001,'KC0002',70);
+insert into tblScore values(1001,'KC0003',80);
+insert into tblScore values(1001,'KC0004',90);
+insert into tblScore values(1001,'KC0005',40);
+insert into tblScore values(1001,'KC0006',100);
+
+insert into tblScore values(1002,'KC0001',60);
+insert into tblScore values(1002,'KC0002',70);
+insert into tblScore values(1002,'KC0003',80);
+insert into tblScore values(1002,'KC0004',90);
+insert into tblScore values(1002,'KC0005',40);
+insert into tblScore values(1002,'KC0006',100);
+
+insert into tblScore values(1003,'KC0001',60);
+insert into tblScore values(1003,'KC0002',70);
+
+insert into tblScore values(1004,'KC0001',80);
+insert into tblScore values(1004,'KC0002',80);
+insert into tblScore values(1004,'KC0003',80);
+insert into tblScore values(1004,'KC0004',90);
+insert into tblScore values(1004,'KC0005',70);
+
+
+insert into tblScore values(1005,'KC0003',80);
+insert into tblScore values(1005,'KC0004',90);
+insert into tblScore values(1005,'KC0005',60);
+insert into tblScore values(1005,'KC0006',50);
+
+insert into tblScore values(1006,'KC0001',60);
+insert into tblScore values(1006,'KC0002',50);
+insert into tblScore values(1006,'KC0003',55);
+insert into tblScore values(1006,'KC0004',33);
+insert into tblScore values(1006,'KC0005',40);
+insert into tblScore values(1006,'KC0006',79);
+
+insert into tblScore values(1007,'KC0001',90);
+insert into tblScore values(1007,'KC0002',90);
+insert into tblScore values(1007,'KC0003',85);
+
+insert into tblScore values(1008,'KC0001',90);
+insert into tblScore values(1008,'KC0002',90);
+insert into tblScore values(1008,'KC0003',85);
+
+insert into tblScore values(1009,'KC0001',90);
+insert into tblScore values(1009,'KC0002',90);
+insert into tblScore values(1009,'KC0003',85);
+insert into tblScore values(1009,'KC0006',80);
+
+
+
+问题： 
+1、查询“KC0001”课程比“KC0002”课程成绩高的所有学生的学号；
+select t1.sid from 
+(select * from tblscore where cid='kc0001') t1,
+(select * from tblscore where cid='kc0002') t2
+ where t1.sid=t2.sid and t1.score>t2.score;
+
+
+2、查询平均成绩大于60分的同学的学号和平均成绩；
+
+select sid,avg(score) as avg from tblscore group by sid having(avg(score)>60);
+
+或者
+
+select * from 
+(select sid,avg(score) as avg from tblscore group by sid) t1 where avg>60;
+
+
+3、查询所有同学的学号、姓名、选课数、总成绩； 
+
+select t1.sid,t2.sname '姓名',count(t1.cid) as '选课数',sum(t1.score) as '总成绩'
+ from tblscore t1,tblstudent t2 where t1.sid=t2.sid group by sid;
+
+4、查询姓“孔”或 名字当中含有“子”的老师的个数； 
+
+select count(tid) as num from tblteacher where tname like '孔%' or tname like '%子%';
+
+5、查询没学过“孔子”老师课的同学的学号、姓名； 
+--先查找课程编号
+select cid from tblCourse where tid=4;
+
+--找有学过“孔子”老师的学生
+select sid from tblscore t1,
+(select cid from tblCourse where tid=4) t2
+ where t1.cid=t2.cid group by sid
+
+--
+select sid,sname from tblstudent where sid not in(
+select sid from tblscore t1,
+(select cid from tblCourse where tid=4) t2
+ where t1.cid=t2.cid group by sid
+);
+
+
+6、查询学过“KC0001”并且也学过编号“KC0005”课程的同学的学号、姓名； 
+
+select sid,sname from tblstudent
+ where sid in(select sid from tblscore where cid='kc0001')
+   and sid in(select sid from tblscore where cid='kc0005');
+
+或
+
+select stu.sid,stu.Sname from tblStudent stu,tblScore SC
+ where stu.SId=SC.SId and SC.CId='KC0001'and exists( select * from tblScore as SC_2 where SC_2.SId=SC.SId and SC_2.CId='KC0005'); 
+
+
+7、查询学过“孔子”老师所教的所有课的同学的学号、姓名； 
+  关联表：tblcourse  tblscore  tblteacher
+
+select tt.sid,stu.sname from
+(
+select sid,count(sc.cid) as num from tblscore sc,tblCourse c,tblTeacher t 
+   where t.tname='孔子' and t.tid=c.tid and c.cid=sc.cid group by sid
+) as tt, tblstudent stu
+  where
+   tt.sid=stu.sid
+   and num=(select count(cid) from tblcourse where tid=(select tid from tblteacher where tname='孔子'))
+;
+
+或
+
+select tt.sid,stu.sname from
+(
+select sid,count(sc.cid) as num from tblscore sc,tblCourse c,tblTeacher t 
+   where t.tname='孔子' and t.tid=c.tid and c.cid=sc.cid group by sid
+  having count(sc.cid)=(select count(cid) from tblcourse where tid=(select tid from tblteacher where tname='孔子'))
+) as tt, tblstudent stu
+  where tt.sid=stu.sid;
+
+
+8、查询课程编号“KC0002”的成绩比课程编号“KC0001”课程低的所有同学的学号、姓名；
+
+select t2.sid,stu.sname from 
+(select * from tblscore where cid='kc0001') t1,
+(select * from tblscore where cid='kc0002') t2,
+tblstudent stu
+ where t1.sid=t2.sid and t2.sid=stu.sid and t2.score<t1.score;
+
+或
+
+select Sid,Sname from (
+ select stu.Sid,stu.Sname,score,(select score from tblscore SC_2 where SC_2.Sid=stu.Sid and SC_2.Cid='kc0002') score2 
+  from tblStudent stu,tblscore SC where stu.Sid=SC.Sid and Cid='kc0001'
+) S_2 where score2 <score; 
+
+
+9、查询所有课程成绩小于60分的同学的学号、姓名； 
+
+select sid,sname from tblstudent
+ where sid not in(select s.sid from tblstudent s,tblscore sc where s.sid=sc.sid and sc.score>60);
+
+
+10、查询没有学全所有课的同学的学号、姓名；
+
+select stu.SId,stu.Sname from tblStudent stu, tblScore sc
+  where stu.SId=sc.SId group by stu.SId,stu.Sname having count(CId)<(select count(CId) from tblCourse);
+
+11、查询至少有一门课与学号为“9”的同学所学相同的同学的学号和姓名；
+
+  select t1.SId,t1.Sname from tblStudent t1,tblScore t2 where t1.SId=t2.SId and CId in (select CId from tblScore where SId=9);
+
+
+12、查询至少学过学号为“1”同学所有一门课的其他同学学号和姓名；
+
+   select distinct t2.SId,t1.Sname from tblStudent t1,tblScore t2
+    where t1.SId=t2.SId and t2.CId in(select CId from tblScore where SId=1);
+
+
+13、把“tblScore”表中“李白”老师教的课的成绩都更改为此课程的平均成绩；
+
+sql server与oracle写法：
+
+  update tblScore set score=(select avg(score) from tblScore ts where ts.cid=cid)
+    where CId in(select CId from tblCourse tc,tblTeacher tt where tc.TId=tt.TId and tt.Tname='李白')
+
+mysql写法：
+
+--先找出课程号和成绩
+select * from tblScore t
+join (
+select Cid,avg(score) as avg from tblscore where CId in(select CId from tblCourse tc,tblTeacher tt where 
+tc.TId=tt.TId and tt.Tname='李白') group by cid
+) as tt on t.CId=tt.Cid 
+
+--修改数据
+update tblScore t
+join (
+select Cid,avg(score) as avg from tblscore where CId in(select CId from tblCourse tc,tblTeacher tt where 
+tc.TId=tt.TId and tt.Tname='李白') group by cid
+) as tt on t.CId=tt.Cid 
+ set score=avg;
+
+
+14、查询和“4”号的同学学习的课程完全相同的其他同学学号和姓名；
+  select sid from tblScore where cid in(select cid from tblScore where sid=4)
+   group by sid having count(1)=(select count(1) from tblScore where sid=4)
+
+
+15、删除学习“叶平”老师课的SC表记录；
+    delete from tblScore where cid in(select cid from tblCourse t1,tblTeacher t2 where t1.tid=t2.tid and t2.tname='叶平')
+
+
+16、向tblScore表中插入一些记录，这些记录要求符合以下条件：没有上过编号“KC0003”课程的同学学号、KC0003号课的平均成绩；
+
+   insert into tblScore(SId,CId,Score) 
+   select sid,'KC003',round((select avg(score) from tblScore where cid='KC0003'),2) as score
+     from tblStudent where sid not in(select sid from tblScore where cid='KC0003');
+
+
+17、按平均成绩从高到低显示所有学生的“语文”、“数学”、“英语”三门的课程成绩，按如下形式显示： 学生ID,语文,数学,英语,有效课程数,有效平均分
+    
+  select sid
+  ,(select score from tblScore t1 where t1.sid=t.sid and cid='KC0001') as '语文'
+  ,(select score from tblScore t1 where t1.sid=t.sid and cid='KC0002') as '数学'
+  ,(select score from tblScore t1 where t1.sid=t.sid and cid='KC0003') as '英语'
+  ,count(sid) as '有效课程数',avg(t.score) as '平均成绩'
+  from tblScore t group by sid order by avg(t.score)

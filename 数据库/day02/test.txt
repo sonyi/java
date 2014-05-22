@@ -87,6 +87,7 @@ use schooldb;
 	select * from course;
 	drop table course;
 	delete from course where cid='KC0006';
+	update course set tid=2001 where cid='KC0005';
 	
 3、成绩表score:
 	create table score(
@@ -187,22 +188,22 @@ use schooldb;
 		values(1008,'KC0004',76);
 		
 	insert into score(sid,cid,score)
-		values(1009,'KC0001',93);
+		values(1009,'KC0001',36);
 	insert into score(sid,cid,score)
-		values(1009,'KC0002',84);
+		values(1009,'KC0002',54);
 	insert into score(sid,cid,score)
-		values(1009,'KC0003',91);
+		values(1009,'KC0003',31);
 	insert into score(sid,cid,score)
-		values(1009,'KC0004',86);
+		values(1009,'KC0004',51);
 	insert into score(sid,cid,score)
-		values(1009,'KC0005',89);
+		values(1009,'KC0005',41);
 	insert into score(sid,cid,score)
 		values(1009,'KC0006',35);
 		
 	select * from score;
 	drop table score;
-	delete from score where sid=1005 and cid='KC0001';
-	
+	delete from score where sid=1007 and cid='KC0005';
+	update score set score=50 where sid=1009;
 	
 
 
@@ -219,12 +220,13 @@ use schooldb;
 		group by sid having avg(score)>60;
 
 3、查询所有同学的学号、姓名、选课数、总成绩； 
-	select student.sid,student.sname,count(score.cid),sum(score)
-		from student left outer join score 
+	select student.sid,sname,count(cid),sum(score)
+		from student 
+		left outer join score 
 		on student.sid=score.sid
-		group by student.sid,sname;
+		group by student.sid;
 
-4、查询姓“孔”或 名字当中含有“子”的老师的个数； 
+4、查询姓“孔”或 名字当中含有“子”的老师的个数； //distinct返回唯一的不同值
 	select count(distinct(tname))
 		from teacher
 		where tname like '孔%' or tname like '%子%';
@@ -233,13 +235,17 @@ use schooldb;
 	select student.sid,student.sname
 		from student
 		where sid not in(select distinct(score.sid) 
-			from score,
-			course,
-			teacher where score.cid=course.cid and
+			from score,course,teacher 
+			where score.cid=course.cid and
 				teacher.tid=course.tid and teacher.tname='孔子');
 		
 6、查询学过“KC0001”并且也学过编号“KC0005”课程的同学的学号、姓名； 
-	select student.sid,student.sname from student,score 
+	select sid,sname from student 
+		where sid in (select sid from score where cid='KC0001') and
+			sid in (select sid from score where cid='KC0005');
+		
+	或者
+	select student.sid,sname from student,score
 		where student.sid=score.sid and score.cid='KC0001'
 			and exists(select * from score as sc
 				where sc.sid=score.sid and sc.cid='KC0005');
@@ -247,21 +253,22 @@ use schooldb;
 7、查询学过“孔子”老师所教的所有课的同学的学号、姓名； 
   关联表：course  score  teacher
 	select sid,sname from student
-		where sid in (select sid from score,teacher
-			where score.cid=course.cid and teacher.tid=course.tid and teacher.tname='孔子'
-					group by sid having count(score.cid)=(select count(cid) from course,teacher 
-							where teacher.tid=course.tid and tname='孔子'));
-
+		where sid in (select sid from score,teacher,course
+			where score.cid=course.cid and teacher.tid=course.tid and teacher.tname='孔子');
+					
 8、查询课程编号“KC0002”的成绩比课程编号“KC0001”课程低的所有同学的学号、姓名；
-	select sid,sname from (select student.sid,student.sname,score,
-		(select score from score as sc where sc.sid=student.sid and sc.cid='KC0002') score from student,
-			score where student.sid=score.sid and cid='KC0001') sc where score2<score;
+	select a.sid,sname from student,
+		(select sid,score from score where cid='KC0002') a,
+		(select sid,score from score where cid='KC0001') b
+		where a.sid=b.sid and student.sid=a.sid and a.score<b.score;
+		
 
 9、查询所有课程成绩小于60分的同学的学号、姓名； 
-
+	select sid,sname from student
+		where sid not in (select student.sid from student,score where student.sid=score.sid and score>60);
 
 10、查询没有学全所有课的同学的学号、姓名；
-
+	
 
 11、查询至少有一门课与学号为“9”的同学所学相同的同学的学号和姓名；
 

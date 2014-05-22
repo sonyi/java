@@ -1,0 +1,47 @@
+一、
+createStatement():创建基本的Statement对象
+prepareStatement(String sql):根据传入的sql语句创建预编译的Statement对象。
+
+二、
+总体上来看，使用PreparedStatement比使用Statement多了如下三个好处：
+1.PreparedStatement预编译sql语句，性能更好
+2.PreparedStatement无须“拼接”sql语句，编程跟简单
+3.PreparedStatement可以防止sql注入，安全性更好
+
+三、
+事务处理
+   对于任何数据库应用而言，事务都是非常重要的，事务是保证底层数据完整的重要手段，没有事务支持的数据库应用，那将是非常脆弱的。
+   事务提交有两种方式：显示提交和自动提交。
+   显示提交：使用commit.
+   自动提交：执行DDL或DCL,或者程序正常退出
+   当事务所包含的任意一个数据库操作执行失败后，应该回滚（rollback）事务，使该事务中所作的修改全部失效。事务回滚有两种方式：显示回滚和自动回滚。
+   显示回滚：使用rollback
+   自动回滚：系统错误或者强行退出
+
+   MySql默认关闭事务（即打开自动提交），默认情况下，用户在MySql控制台输入一条DML语句，这条DML语句将会立即保存到数据库里。为了开启MySql的事务支持，可以显示调用如下命令：
+   set autocommit={0|1}; 0为关闭自动提交，即开启事务。
+   提交事务 commit;
+
+   --回滚事务
+    方式1：rollback;
+    方式2：设置指定中间点
+        savepoint a;
+        rollback to a;
+
+    普通的提交，回滚都会结束当前事务，但回滚到指定中间点因为依然处于事务之中，所以不会结束当前事务。
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
