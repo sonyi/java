@@ -5,14 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MainTest {
 
 	public static void main(String[] args) {
 		String url = "jdbc:mysql://127.0.0.1:3306/schooldb";
 		String user = "root";
-		String password = "123456";
+		String password = "123";
 		Connection conn = null;
 //		Statement stat = null;
 		PreparedStatement pst = null;
@@ -28,7 +27,7 @@ public class MainTest {
 			}
 			
 			//创建statement对象
-			String sql = "select * from tblstudent where sid=1003";
+			String sql = "select * from student where sid=1003";
 //			stat = conn.createStatement();
 			pst = conn.prepareStatement(sql);
 			
@@ -78,7 +77,5 @@ public class MainTest {
 				}
 			}
 		}
-
 	}
-
 }

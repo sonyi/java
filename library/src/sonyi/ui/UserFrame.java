@@ -12,7 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import sonyi.data.OperateFile;
+import sonyi.database.OperateFile;
+import sonyi.operation.UserOper;
 import sonyi.util.FileLoad;
 
 public class UserFrame extends JFrame{
@@ -23,11 +24,6 @@ public class UserFrame extends JFrame{
 	public UserFrame() {
 		init();
 	}
-	
-	public static void main(String[] args){
-		new UserFrame();
-	}
-	
 	
 	public void init(){
 		setTitle("µ«»ÎΩÁ√Ê");
@@ -66,13 +62,16 @@ public class UserFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String name = userName.getText();
 				String pass = new String(password.getPassword());
-				
-				if(checkPassword(name, pass)){
-					new DataFrame();
-					setVisible(false);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "’À∫≈ªÚ√‹¬Î¥ÌŒÛ");
+				if(name.equals("") || pass.equals("")){
+					JOptionPane.showMessageDialog(null, "’À∫≈ªÚ√‹¬ÎŒ™ø’£°");
+				}else {
+					int num = new UserOper().getUser(name, pass);
+					if(num == 0){
+						JOptionPane.showMessageDialog(null, "’À∫≈ªÚ√‹¬Î¥ÌŒÛ£°");
+					}else {
+						new DataFrame();
+						closeFrame();
+					}
 				}
 			}
 		});
@@ -82,6 +81,12 @@ public class UserFrame extends JFrame{
 				System.exit(0);
 			}
 		});
+		
+		
+	}
+	
+	public void closeFrame(){
+		this.dispose();
 	}
 	
 	public boolean checkPassword(String name,String password){

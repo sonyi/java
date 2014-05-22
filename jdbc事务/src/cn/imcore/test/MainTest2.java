@@ -11,7 +11,7 @@ public class MainTest2 {
 	public static void main(String[] args) {
 		String url = "jdbc:mysql://127.0.0.1:3306/schooldb";
 		String user = "root";
-		String password = "123456";
+		String password = "123";
 		Connection conn = null;
 		Statement stat = null;
 		try {
@@ -27,8 +27,8 @@ public class MainTest2 {
 			//创建statement对象
 			stat = conn.createStatement();
 //			conn.prepareStatement(sql);
-			String del_sql = "delete from tblscore where sid=1004 and score=80";
-			String upd_sql = "update tblscore set score=73 where score=73.75";
+			String del_sql = "delete from score where sid=1004 and score=80";
+			String upd_sql = "update score set score=73 where score=73.75";
 			
 			int b = stat.executeUpdate(del_sql);
 			int b2 = stat.executeUpdate(upd_sql);

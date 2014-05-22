@@ -1,0 +1,35 @@
+create database library;
+use library;
+
+create table usersys(
+		uID int not null auto_increment primary key,
+		uName varchar(50) not null,
+		upassword varchar(20) not null	
+	);
+	
+insert into usersys(uname,upassword) values('zhangsan','12345');
+insert into usersys(uname,upassword) values('lisi','123');
+insert into usersys(uname,upassword) values('admin','admin');
+insert into usersys(uname,upassword) values('test','123456');
+
+
+
+create table booksData(
+		bID int not null auto_increment primary key,
+		bName varchar(50) not null,
+		bAuth varchar(30) not null,
+		bsum int default 0
+	);
+	
+insert into booksData(bname,bauth,bsum) values('蒋介石与现代中国','陶涵',12);
+insert into booksData(bname,bauth,bsum) values('历史的经验','南怀瑾',17);
+insert into booksData(bname,bauth,bsum) values('java编程思想','埃克尔',4);
+insert into booksData(bname,bauth,bsum) values('毕业了，却开始怀念','丁一晨',14);
+insert into booksData(bname,bauth,bsum) values('这个历史挺靠谱','袁腾飞',18);
+
+
+
+
+
+
+

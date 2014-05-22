@@ -11,7 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import sonyi.data.OperateFile;
+import sonyi.database.OperateFile;
+import sonyi.operation.BookDataOper;
 import sonyi.util.FileLoad;
 
 public class DataFrame extends JFrame{
@@ -107,19 +108,7 @@ public class DataFrame extends JFrame{
 	}
 	
 	public Vector<Vector<String>> getdata(){
-		data = new Vector<Vector<String>>();
-		int index = 1;
-		try {
-			Vector<Vector<String>> vdata = new OperateFile().readOperate(FileLoad.dataFile);
-			for(Vector<String> v : vdata){
-				Vector<String> vec = new Vector<>();
-				vec.add((index++) + "");
-				vec.addAll(v);
-				data.add(vec);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		data = new BookDataOper().getdata();
 		return data;
 	}
 	

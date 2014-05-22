@@ -13,7 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import sonyi.data.OperateFile;
+import sonyi.database.OperateFile;
+import sonyi.operation.BookDataOper;
 import sonyi.util.FileLoad;
 
 public class OpeJDialog extends JDialog{
@@ -66,7 +67,7 @@ public class OpeJDialog extends JDialog{
 		add(save);
 		add(exit);
 		
-		if("修改界面".equals(title)){
+		if(title.equals("修改界面")){
 			rowSelect = DataFrame.table.getSelectedRow();
 			@SuppressWarnings("unchecked")
 			Vector<String> v = (Vector<String>)DataFrame.model.getDataVector().get(rowSelect);
@@ -86,26 +87,25 @@ public class OpeJDialog extends JDialog{
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if("添加界面".equals(title)){
+				if(title.equals("添加界面")){
 					Vector<String> v = saveMessage();
 					if(v == null){
 						JOptionPane.showMessageDialog(null, "信息为空或信息已存在，不能保存");
 					}else {
-						//DataFrame.data.add(v);
 						Vector<String> vec = new Vector<>();
 						vec.add(DataFrame.data.size() + 1 + "");
 						vec.addAll(v);
 						DataFrame.model.addRow(vec);
-					//	DataFrame.model.setDataVector(DataFrame.data, DataFrame.names);
-						setVisible(false);
-						try {
-							new OperateFile().writeOperate(FileLoad.dataFile, v,true);//添加到文件
-						} catch (FileNotFoundException e1) {
-							e1.printStackTrace();
-						}
+						new BookDataOper().update(vec);
+						disJDiolog();
+//						try {
+//							new OperateFile().writeOperate(FileLoad.dataFile, v,true);//添加到文件
+//						} catch (FileNotFoundException e1) {
+//							e1.printStackTrace();
+//						}
 					}
 				}
-				if("修改界面".equals(title)){
+				if(title.equals("修改界面")){
 					rowSelect = DataFrame.table.getSelectedRow();
 					@SuppressWarnings("unchecked")
 					Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(rowSelect);
