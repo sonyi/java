@@ -3,8 +3,8 @@ create database SchoolDB;
 use schooldb;
 
 二、创建表：
-1、学生表tblStudent
-	create table tblStudent(
+1、学生表student
+	create table student(
 		sid int not null auto_increment,
 		sname varchar(30) not null,
 		sage date not null,
@@ -12,66 +12,277 @@ use schooldb;
 		Saddr varchar(200) default '不详',
 		primary key (sid)
 	);
-	alter table tblstudent auto_increment=1001;
-	insert into tblstudent(sname,sage,ssex,saddr)
+	alter table student auto_increment=1001;
+	insert into student(sname,sage,ssex,saddr)
 		values('张三','1989-06-15','男','厦门');
-	insert into tblstudent(sname,sage,ssex,saddr)
+	insert into student(sname,sage,ssex,saddr)
 		values('李四','1987-09-18','男','北京');
-	insert into tblstudent(sname,sage,ssex,saddr)
+	insert into student(sname,sage,ssex,saddr)
 		values('王五','1992-10-15','男','深圳');
-	insert into tblstudent(sname,sage,ssex,saddr)
+	insert into student(sname,sage,ssex,saddr)
 		values('小白','1993-02-14','女','南京');
-	insert into tblstudent(sname,sage,ssex,saddr)
+	insert into student(sname,sage,ssex,saddr)
 		values('小王','1986-06-15','女','厦门');
-	insert into tblstudent(sname,sage,ssex,saddr)
+	insert into student(sname,sage,ssex,saddr)
 		values('周七','1981-05-28','男','湖北');
-	insert into tblstudent(sname,sage,ssex)
+	insert into student(sname,sage,ssex)
 		values('赵六','1989-06-15','男');
-	insert into tblstudent(sname,sage,ssex,saddr)
+	insert into student(sname,sage,ssex,saddr)
 		values('小九','1993-06-05','女','厦门');
+	insert into student(sname,sage,ssex,saddr)
+		values('王小二','1988-09-05','男','杭州');
 	
-	select * from tblstudent;
-	drop table tblstudent;
+	select * from student;
+	drop table student;
 	
 
-4、教师表tblTeacher：
-	create table tblteacher(
+4、教师表teacher：
+	create table teacher(
 		tid int not null auto_increment,
 		tname varchar(30) not null,
 		primary key (tid)
 	);
-	alter table tblteacher auto_increment=2001;
+	alter table teacher auto_increment=2001;
 	
-	insert into tblteacher(tname)
-		values('李老师');
-	insert into tblteacher(tname)
+	insert into teacher(tname)
+		values('孔子');
+	insert into teacher(tname)
+		values('李白');
+	insert into teacher(tname)
+		values('叶平');
+	insert into teacher(tname)
+		values('李小子');
+	insert into teacher(tname)
 		values('王老师');
-	insert into tblteacher(tname)
-		values('张老师');
-	insert into tblteacher(tname)
-		values('周老师');
 	
-	select * from tblteacher;
+	select * from teacher;
+	drop table teacher;
 	
-2、课程表tblCourse：
-	create table tblcourse(
+	update teacher set tname='孔子' where tid=2001;
+	update teacher set tname='李白' where tid=2002;
+	update teacher set tname='叶平' where tid=2003;
+	update teacher set tname='李小子' where tid=2004;
+2、课程表course：
+	create table course(
 		cid varchar(6),
 		cname varchar(20) not null,
 		tid int not null,
 		unique (cname),
-		primary key (cid)
+		primary key (cid),
+		foreign key (tid) references teacher (tid)
 	);
+	insert into course(cid,cname,tid)
+		values('KC0001','语文',2001);
+	insert into course(cid,cname,tid)
+		values('KC0002','英语',2002);
+	insert into course(cid,cname,tid)
+		values('KC0003','数学',2003);
+	insert into course(cid,cname,tid)
+		values('KC0004','地理',2004);
+	insert into course(cid,cname,tid)
+		values('KC0005','历史',2002);
+	insert into course(cid,cname,tid)
+		values('KC0006','美术',2005);
+	
+	select * from course;
+	drop table course;
+	delete from course where cid='KC0006';
+	
+3、成绩表score:
+	create table score(
+		sid int not null,
+		cid varchar(6) not null,
+		score decimal(6,2) not null default 0,
+		foreign key (sid) references student (sid),
+		foreign key (cid) references course (cid)
+	);
+	insert into score(sid,cid,score)
+		values(1001,'KC0002',70);
+	insert into score(sid,cid,score)
+		values(1001,'KC0003',90);
+	insert into score(sid,cid,score)
+		values(1001,'KC0004',82);
+	insert into score(sid,cid,score)
+		values(1001,'KC0005',84);
+	insert into score(sid,cid,score)
+		values(1001,'KC0006',85);
+		
+	insert into score(sid,cid,score)
+		values(1002,'KC0001',84);
+	insert into score(sid,cid,score)
+		values(1002,'KC0002',92);
+	insert into score(sid,cid,score)
+		values(1002,'KC0003',90);
+	insert into score(sid,cid,score)
+		values(1002,'KC0004',76);
+	insert into score(sid,cid,score)
+		values(1002,'KC0005',50);
+	insert into score(sid,cid,score)
+		values(1002,'KC0006',87);
+		
+	insert into score(sid,cid,score)
+		values(1003,'KC0002',30);
+	insert into score(sid,cid,score)
+		values(1003,'KC0003',98);
+	insert into score(sid,cid,score)
+		values(1003,'KC0004',76);
+	insert into score(sid,cid,score)
+		values(1003,'KC0005',89);
+	insert into score(sid,cid,score)
+		values(1003,'KC0006',85);
+		
+	insert into score(sid,cid,score)
+		values(1004,'KC0001',88);
+	insert into score(sid,cid,score)
+		values(1004,'KC0002',78);
+	insert into score(sid,cid,score)
+		values(1004,'KC0003',68);
+	insert into score(sid,cid,score)
+		values(1004,'KC0004',56);
+	insert into score(sid,cid,score)
+		values(1004,'KC0006',76);
+		
+	insert into score(sid,cid,score)
+		values(1005,'KC0002',99);
+	insert into score(sid,cid,score)
+		values(1005,'KC0003',97);
+	insert into score(sid,cid,score)
+		values(1005,'KC0004',74);
+	insert into score(sid,cid,score)
+		values(1005,'KC0005',69);
+	insert into score(sid,cid,score)
+		values(1005,'KC0006',84);
+		
+	insert into score(sid,cid,score)
+		values(1006,'KC0001',93);
+	insert into score(sid,cid,score)
+		values(1006,'KC0002',97);
+	insert into score(sid,cid,score)
+		values(1006,'KC0003',78);
+	insert into score(sid,cid,score)
+		values(1006,'KC0005',99);
+	insert into score(sid,cid,score)
+		values(1006,'KC0006',88);
+		
+	insert into score(sid,cid,score)
+		values(1007,'KC0001',94);
+	insert into score(sid,cid,score)
+		values(1007,'KC0002',67);
+	insert into score(sid,cid,score)
+		values(1007,'KC0003',88);
+	insert into score(sid,cid,score)
+		values(1007,'KC0004',74);
+	insert into score(sid,cid,score)
+		values(1007,'KC0005',84);
+	insert into score(sid,cid,score)
+		values(1007,'KC0006',87);
+		
+	insert into score(sid,cid,score)
+		values(1008,'KC0001',96);
+	insert into score(sid,cid,score)
+		values(1008,'KC0002',81);
+	insert into score(sid,cid,score)
+		values(1008,'KC0003',92);
+	insert into score(sid,cid,score)
+		values(1008,'KC0004',76);
+		
+	insert into score(sid,cid,score)
+		values(1009,'KC0001',93);
+	insert into score(sid,cid,score)
+		values(1009,'KC0002',84);
+	insert into score(sid,cid,score)
+		values(1009,'KC0003',91);
+	insert into score(sid,cid,score)
+		values(1009,'KC0004',86);
+	insert into score(sid,cid,score)
+		values(1009,'KC0005',89);
+	insert into score(sid,cid,score)
+		values(1009,'KC0006',35);
+		
+	select * from score;
+	drop table score;
+	delete from score where sid=1005 and cid='KC0001';
+	
+	
 
-	drop table tblcourse;
+
+问题：
+1、查询“KC0001”课程比“KC0002”课程成绩高的所有学生的学号；
+	select a.sid from
+		(select sid,score from score where cid='KC0001') a,
+		(select sid,score from score where cid='KC0002') b
+		where a.score>b.score and a.sid=b.sid;
+
+2、查询平均成绩大于60分的同学的学号和平均成绩；
+	select sid,avg(score) 
+		from score
+		group by sid having avg(score)>60;
+
+3、查询所有同学的学号、姓名、选课数、总成绩； 
+	select student.sid,student.sname,count(score.cid),sum(score)
+		from student left outer join score 
+		on student.sid=score.sid
+		group by student.sid,sname;
+
+4、查询姓“孔”或 名字当中含有“子”的老师的个数； 
+	select count(distinct(tname))
+		from teacher
+		where tname like '孔%' or tname like '%子%';
+
+5、查询没学过“孔子”老师课的同学的学号、姓名； 
+	select student.sid,student.sname
+		from student
+		where sid not in(select distinct(score.sid) 
+			from score,
+			course,
+			teacher where score.cid=course.cid and
+				teacher.tid=course.tid and teacher.tname='孔子');
+		
+6、查询学过“KC0001”并且也学过编号“KC0005”课程的同学的学号、姓名； 
+	select student.sid,student.sname from student,score 
+		where student.sid=score.sid and score.cid='KC0001'
+			and exists(select * from score as sc
+				where sc.sid=score.sid and sc.cid='KC0005');
+
+7、查询学过“孔子”老师所教的所有课的同学的学号、姓名； 
+  关联表：course  score  teacher
+	select sid,sname from student
+		where sid in (select sid from score,teacher
+			where score.cid=course.cid and teacher.tid=course.tid and teacher.tname='孔子'
+					group by sid having count(score.cid)=(select count(cid) from course,teacher 
+							where teacher.tid=course.tid and tname='孔子'));
+
+8、查询课程编号“KC0002”的成绩比课程编号“KC0001”课程低的所有同学的学号、姓名；
+	select sid,sname from (select student.sid,student.sname,score,
+		(select score from score as sc where sc.sid=student.sid and sc.cid='KC0002') score from student,
+			score where student.sid=score.sid and cid='KC0001') sc where score2<score;
+
+9、查询所有课程成绩小于60分的同学的学号、姓名； 
 
 
+10、查询没有学全所有课的同学的学号、姓名；
 
 
+11、查询至少有一门课与学号为“9”的同学所学相同的同学的学号和姓名；
 
 
+12、查询至少学过学号为“1”同学所有一门课的其他同学学号和姓名；
+
+ 
+13、把“score”表中“李白”老师教的课的成绩都更改为此课程的平均成绩；
 
 
+14、查询和“4”号的同学学习的课程完全相同的其他同学学号和姓名；
 
+
+15、删除学习“叶平”老师课的SC表记录；
+
+
+16、向score表中插入一些记录，这些记录要求符合以下条件：没有上过编号“KC0003”课程的同学学号、KC0003号课的平均成绩；
+
+
+17、按平均成绩从高到低显示所有学生的“语文”、“数学”、“英语”三门的课程成绩，按如下形式显示： 学生ID,语文,数学,英语,有效课程数,有效平均分
+    
 
 
 
