@@ -125,3 +125,16 @@ public class DataFrame extends JFrame{
 		return names;
 	}
 }
+
+class Model extends DefaultTableModel{
+
+	public Model(Vector<Vector<String>> getdata,Vector<String> getHead){
+		
+	}
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+}
