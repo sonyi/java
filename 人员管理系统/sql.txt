@@ -1,0 +1,28 @@
+create database usersys;
+use usersys;
+
+create table user(
+   uId int not null auto_increment primary key,
+   uName varchar(50) not null,
+   uPwd  varchar(20)
+);
+
+insert into user(uName,uPwd) values('admin','admin');
+insert into user(uName,uPwd) values('test','123456');
+
+
+create table person(
+   pId int not null auto_increment primary key,
+   pName varchar(50) not null,
+   pAge date,
+   pSex char(1),
+   pAddr varchar(100)
+);
+
+insert into person(pName,pAge,pSex,PAddr) values('小一','1991-01-01','男','厦门市思明区软件园');
+insert into person(pName,pAge,pSex,PAddr) values('小二','1991-01-01','男','厦门市思明区软件园');
+insert into person(pName,pAge,pSex,PAddr) values('小三','1991-01-01','男','厦门市思明区软件园');
+insert into person(pName,pAge,pSex,PAddr) values('小四','1991-01-01','男','厦门市思明区软件园');
+insert into person(pName,pAge,pSex,PAddr) values('小五','1991-01-01','男','厦门市思明区软件园');
+insert into person(pName,pAge,pSex,PAddr) values('小六','1991-01-01','男','厦门市思明区软件园');
+insert into person(pName,pAge,pSex,PAddr) values('小七','1991-01-01','男','厦门市思明区软件园');

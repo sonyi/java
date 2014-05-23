@@ -2,8 +2,6 @@ package sonyi.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -13,15 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import sonyi.database.OperateFile;
 import sonyi.operation.BookDataOper;
-import sonyi.util.FileLoad;
 
 public class OpeJDialog extends JDialog{
 	public static JTextField bookName,auth,count;
 	JButton save,exit;
-	int rowSelect;
+	int row;
 	private String title,saveText;
+	BookDataOper bdo = new BookDataOper();
 	private static final long serialVersionUID = 3L;
 	
 	
@@ -37,7 +34,6 @@ public class OpeJDialog extends JDialog{
 		setLayout(null);
 		setSize(400, 300);//先设置大小
 		setLocationRelativeTo(null);//再设置居中，（排版顺序有很大关系）
-		//setBounds(200, 100, 400, 300);
 		
 		JLabel nameLabel = new JLabel("书名：");
 		nameLabel.setBounds(90, 40, 60, 30);
@@ -67,11 +63,11 @@ public class OpeJDialog extends JDialog{
 		add(save);
 		add(exit);
 		
-		if(title.equals("修改界面")){
-			rowSelect = DataFrame.table.getSelectedRow();
+		if(title.equals("修改界面")){//将要修改的选中行信息添加到对话框中
+			row = DataFrame.table.getSelectedRow();
 			@SuppressWarnings("unchecked")
-			Vector<String> v = (Vector<String>)DataFrame.model.getDataVector().get(rowSelect);
-			System.out.println(v.get(0));
+			Vector<String> v = (Vector<String>)DataFrame.model.getDataVector().get(row);
+			//System.out.println(v.get(0));
 			bookName.setText(v.get(1));
 			auth.setText(v.get(2));
 			count.setText(v.get(3));	
@@ -88,45 +84,44 @@ public class OpeJDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(title.equals("添加界面")){
-					Vector<String> v = saveMessage();
-					if(v == null){
-						JOptionPane.showMessageDialog(null, "信息为空或信息已存在，不能保存");
-					}else {
-						Vector<String> vec = new Vector<>();
-						vec.add(DataFrame.data.size() + 1 + "");
-						vec.addAll(v);
-						DataFrame.model.addRow(vec);
-						new BookDataOper().update(vec);
-						disJDiolog();
-//						try {
-//							new OperateFile().writeOperate(FileLoad.dataFile, v,true);//添加到文件
-//						} catch (FileNotFoundException e1) {
-//							e1.printStackTrace();
-//						}
+					Vector<String> v = getMessage();//接收添加信息
+					Vector<Vector<String>> data = DataFrame.data;
+					boolean flag = false;
+					if(v != null){
+						for(int i = 0; i < DataFrame.data.size(); i++){//判断是否已经存在于数据中
+							if(data.get(i).get(1).equals(v.get(0)) && data.get(i).get(2).equals(v.get(1))
+									&& data.get(i).get(3).equals(v.get(2))){
+								flag = true;
+								break;
+							}
+						}
+
+						if (flag) {
+							JOptionPane.showMessageDialog(null, "内容已经存在");
+						}else {
+							v.add(0,DataFrame.data.size() + 1 + "");//添加编号，
+							DataFrame.model.addRow(v);//添加到容器中
+							bdo.insertData(v);//添加到数据库中
+							disJDiolog();//关闭对话框
+						}
 					}
 				}
+				
 				if(title.equals("修改界面")){
-					rowSelect = DataFrame.table.getSelectedRow();
-					@SuppressWarnings("unchecked")
-					Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(rowSelect);
-					Vector<String> vec = new Vector<>();
-					for(int i = 1; i < getData.size(); i++){//去除编号
-						vec.add(getData.get(i));
-					}
-					Vector<String> reviseData = saveMessage();
-					if(reviseData == null){
-						JOptionPane.showMessageDialog(null,"内容为空或未修改");
-					}else {
-						for(int i = 0; i < reviseData.size(); i++){
-							DataFrame.model.setValueAt(reviseData.get(i), rowSelect, i+1);
-						}
-						//DataFrame.model.removeRow(rowSelect);
-						//DataFrame.model.addRow(reviseData);
-						disJDiolog();
-						try {
-							new OperateFile().reviseFile(FileLoad.dataFile, vec, reviseData);
-						} catch (IOException e1) {
-							e1.printStackTrace();
+					row = DataFrame.table.getSelectedRow();
+					Vector<String> v = getMessage();
+					if(v != null){
+						//System.out.println(reviseData);
+						v.add(0,row + 1 + "");
+						if (DataFrame.data.contains(v)) {//判断是否修改
+							JOptionPane.showMessageDialog(null, "内容未修改");
+						}else {
+							for(int i = 0; i < v.size(); i++){//修改容器中内容
+								DataFrame.model.setValueAt(v.get(i), row, i);
+							}
+							//System.out.println(reviseData);
+							bdo.updateData(v);//修改数据库中的内容
+							disJDiolog();//关闭对话框
 						}
 					}
 				}
@@ -144,21 +139,27 @@ public class OpeJDialog extends JDialog{
 		this.dispose();
 	}
 	
-	public Vector<String> saveMessage(){
+	public Vector<String> getMessage(){
 		String titleText = bookName.getText();
 		String authText = auth.getText();
-		String countText = count.getText();//未判断输入格式是否正确
-		Vector<String> al = new Vector<>();
+		String countText = count.getText();
 		
+		try {
+			Integer.parseInt(countText);//判断输入格式是否正确
+		} catch (Exception e) {		
+			JOptionPane.showMessageDialog(null, "藏书必须为数字，输入有误！");
+			return null;
+		}
+		
+		Vector<String> al = new Vector<>();
 		al.add(titleText);
 		al.add(authText);
 		al.add(countText);
-		if("".equals(titleText) || "".equals(authText) || "".equals(countText)){
-			return null;
-		}else if(DataFrame.data.contains(al)){
+		if(titleText.equals("") || authText.equals("") || countText.equals("")){
+			JOptionPane.showMessageDialog(null,"内容为空！");
 			return null;
 		}else {
-			return al;//返回该添加行信息	
+			return al;//返回添加信息	
 		}
 	}
 }

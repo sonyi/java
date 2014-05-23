@@ -11,73 +11,74 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import cn.imcore.oper.UserOper;
+
 public class LoginFrame extends JFrame implements ActionListener{
-	
-	private JLabel userTxt, pwdTxt;
-	private JTextField userName, userPwd;
-	private JButton loginBtn, canelBtn;
-	private JPanel userPanel, pwdPanel, loginPanel;
+	JLabel userTxt, pwdTxt;
+	JTextField userField, pwdField;
+	JButton loginBtn, canelBtn;
+	JPanel userPanel, pwdPanel, btnPanel;
+	private UserOper userOper;
 	
 	public LoginFrame() {
-		this.setTitle("登录界面");
+		this.setTitle("用户登录");
 		this.setLayout(new GridLayout(3,1));
+		
 		userPanel = new JPanel();
 		pwdPanel = new JPanel();
-		loginPanel = new JPanel();
+		btnPanel = new JPanel();
 		
-		userTxt = new JLabel("用  户");
-		pwdTxt = new JLabel("密  码");
-		userName = new JTextField(10);
-		userPwd = new JTextField(10);
+		userTxt = new JLabel("用  户:");
+		pwdTxt = new JLabel("密  码:");
+		
+		userField = new JTextField(10);
+		pwdField = new JTextField(10);
+		
 		loginBtn = new JButton("登录");
-		canelBtn = new JButton("关闭");
+		canelBtn = new JButton("取消");
 		loginBtn.addActionListener(this);
-		canelBtn.addActionListener(this);
-		
 		userPanel.add(userTxt);
-		userPanel.add(userName);
-		
+		userPanel.add(userField);
 		pwdPanel.add(pwdTxt);
-		pwdPanel.add(userPwd);
-		
-		loginPanel.add(loginBtn);
-		loginPanel.add(canelBtn);
+		pwdPanel.add(pwdField);
+		btnPanel.add(loginBtn);
+		btnPanel.add(canelBtn);
 		
 		add(userPanel);
 		add(pwdPanel);
-		add(loginPanel);
-		
-		this.setSize(350, 200);
+		add(btnPanel);
+		this.setSize(300,200);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
+		userOper = new UserOper();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == loginBtn) {
-			if(checkUser()) {//true
-				//1.关闭当前窗口； 2.打开新窗口
-				this.dispose();
-				new ShowFrame();
+			//登录的用户和密码是否为空的判断
+			if(checkUser()) {
+				//不为空就去数据库里面做判断
+				int flag = userOper.getUser(userField.getText(), pwdField.getText());
+				if(flag>0) {
+					this.dispose();//销毁当前窗口
+					new ShowFrame();//进入数据的展示界面
+					
+				} else {
+					JOptionPane.showMessageDialog(this, "用户或密码不存在！");
+					
+				}
 			}
-		}
-		
-		if(e.getSource() == canelBtn) {
-			System.exit(1);
 		}
 		
 	}
 
+	
 	public boolean checkUser() {
-		if("".equals(userName.getText())) {
-			JOptionPane.showMessageDialog(this, "用户名不能为空！");
-			return false;
-		}
-		if("".equals(userPwd.getText())) {
-			JOptionPane.showMessageDialog(this, "密码不能为空！");
+		if("".equals(userField.getText())
+				|| "".equals(pwdField.getText())) {
+			JOptionPane.showMessageDialog(this, "用户或密码没有录入！");
 			return false;
 		}
 		

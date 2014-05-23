@@ -1,26 +1,32 @@
 package sonyi.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import sonyi.database.OperateFile;
 import sonyi.operation.BookDataOper;
-import sonyi.util.FileLoad;
 
 public class DataFrame extends JFrame{
 	JButton addButton,modifyButton,deleButton;
+	JComboBox<String> cb;
+	JTextField seText;
+	JButton seButton;
 	public static DefaultTableModel model;
 	public static JTable table;
 	public static Vector<String> names;
 	public static Vector<Vector<String>> data;
+	BookDataOper bdo = new BookDataOper();
 	private static final long serialVersionUID = 2L;
 
 	public DataFrame() {
@@ -33,12 +39,27 @@ public class DataFrame extends JFrame{
 		setSize(600, 400);//先设置大小
 		setLocationRelativeTo(null);//再设置居中，（排版顺序有很大关系）
 		
-		model = new DefaultTableModel(getdata(), getHead());
+		String[] s = {"书名","作者","藏书数量"};
+		cb = new JComboBox<String>(s);
+		cb.setBounds(80, 10, 100, 45);
+		cb.setBorder(BorderFactory.createTitledBorder("查询条件"));
+		cb.setMaximumRowCount(3);
+		add(cb);
+		
+		seText = new JTextField();
+		seText.setBounds(190, 20, 210, 34);
+		add(seText);
+		
+		seButton = new JButton("确定");
+		seButton.setBounds(415, 20, 80, 34);
+		add(seButton);
+		
+		model = new Model(getdata(), getHead());
 		table = new JTable(model);
-		table.setBounds(8, 5, 570, 280);
+		table.setBounds(8, 65, 570, 230);
 		table.getTableHeader().setReorderingAllowed(false);//固定列
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(8, 5, 570, 280);
+		scrollPane.setBounds(8, 65, 570, 230);
 		add(scrollPane);
 		
 		addButton = new JButton("添加");
@@ -81,38 +102,48 @@ public class DataFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
+				//System.out.println("row------" + row);
 				if(row == -1){
 					JOptionPane.showMessageDialog(null, "没有选中要删除的信息");
 				}else {
 					int rec = JOptionPane.showConfirmDialog(null, "是否删除该选中行！");//返回值：0代表是，1代表否，2代表取消
 					if(rec == 0){
-						for(int i = row+1; i < table.getRowCount(); i++){//删除时改变删除行之后的编号(编号减一)
-							DataFrame.model.setValueAt(i, i, 0);
-						}
+						
 						@SuppressWarnings("unchecked")
 						Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(row);//获取删除行内容
+						bdo.deleteData(getData);
 						DataFrame.model.removeRow(row);
-						
-						
-						Vector<String> delData = new Vector<>();
-						for(int i = 1; i < getData.size(); i++){//去掉编号
-							delData.add(getData.get(i));
+						//System.out.println("row------" + row);
+						for(int i = row; i < table.getRowCount(); i++){//删除时改变删除行之后的编号(编号减一)
+							DataFrame.model.setValueAt(i+1+"", i, 0);
+							bdo.changeIndex(i+2);
 						}
-						try {
-							new OperateFile().reviseFile(FileLoad.dataFile, delData, null);
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						
-						
 					}
 				}
+			}
+		});
+		
+		seButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String comText = (String) cb.getSelectedItem();
+				String sText = seText.getText();
+				
+				System.out.println(comText);
+				System.out.println(sText);
+				
+				if(comText.equals("") || sText.equals("")){
+					JOptionPane.showMessageDialog(null, "查询条件为空！");
+				}else {
+					data = bdo.getdata(comText, sText);
+				}
+				
 			}
 		});
 	}
 	
 	public Vector<Vector<String>> getdata(){
-		data = new BookDataOper().getdata();
+		data = new BookDataOper().getdata(null,null);
 		return data;
 	}
 	
@@ -127,12 +158,12 @@ public class DataFrame extends JFrame{
 }
 
 class Model extends DefaultTableModel{
-
+	private static final long serialVersionUID = 1L;
 	public Model(Vector<Vector<String>> getdata,Vector<String> getHead){
-		
+		super(getdata, getHead);
 	}
 	@Override
-	public boolean isCellEditable(int row, int column) {
+	public boolean isCellEditable(int row, int column) {//设置行和列 能选中但不能编辑
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -1,53 +1,55 @@
 package cn.imcore.entity;
 
 public class Person {
-	private int ids;
-	private String name;
-	private int age;
-	private String sex;
+	private int pId;
+	private String pName;
+	private String pAge;
+	private String pSex;
+	private String pAddr;
 	
 	public Person() {
 		
 	}
 	
-	public Person(int ids, String name, int age, String sex) {
-		this.ids = ids;
-		this.name = name;
-		this.age = age;
-		this.sex = sex;
+	public Person(int pId, String pName, String pAge, String pSex, String pAddr) {
+		super();
+		this.pId = pId;
+		this.pName = pName;
+		this.pAge = pAge;
+		this.pSex = pSex;
+		this.pAddr = pAddr;
 	}
-
-	public int getIds() {
-		return ids;
+	public int getpId() {
+		return pId;
 	}
-
-	public void setIds(int ids) {
-		this.ids = ids;
+	public void setpId(int pId) {
+		this.pId = pId;
 	}
-
-	public String getName() {
-		return name;
+	public String getpName() {
+		return pName;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setpName(String pName) {
+		this.pName = pName;
 	}
-
-	public int getAge() {
-		return age;
+	public String getpAge() {
+		return pAge;
 	}
-
-	public void setAge(int age) {
-		this.age = age;
+	public void setpAge(String pAge) {
+		this.pAge = pAge;
 	}
-
-	public String getSex() {
-		return sex;
+	public String getpSex() {
+		return pSex;
 	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setpSex(String pSex) {
+		this.pSex = pSex;
+	}
+	public String getpAddr() {
+		return pAddr;
+	}
+	public void setpAddr(String pAddr) {
+		this.pAddr = pAddr;
 	}
 	
 	
+
 }

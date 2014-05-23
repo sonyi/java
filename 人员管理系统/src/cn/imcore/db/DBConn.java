@@ -1,4 +1,4 @@
-package sonyi.database;
+package cn.imcore.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,18 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Conn {
-	public static String url = "jdbc:mysql://127.0.0.1:3306/library";
-	public static String user = "root";
-	public static String password = "123";
+public class DBConn {
+	private static String url = "jdbc:mysql://127.0.0.1:3306/usersys";
+	private static String user = "root";
+	private static String pwd = "123456";
 	
 	//获取连接
-	public static Connection getConnection(){
+	public static Connection getConn() {
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("连接成功-----" + conn);
+			conn = DriverManager.getConnection(url,user,pwd);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -25,13 +24,13 @@ public class Conn {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return conn;
 	}
-	
+
 	//关闭连接
-	public static void closeConnection(Connection conn,Statement sta,ResultSet rs){
-		
-		if(conn != null){
+	public static void close(Connection conn, Statement stat, ResultSet rs) {
+		if(conn != null) {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -40,16 +39,16 @@ public class Conn {
 			}
 		}
 		
-		if(sta != null){
+		if(stat != null) {
 			try {
-				sta.close();
+				stat.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		if(rs != null){
+		if(rs != null) {
 			try {
 				rs.close();
 			} catch (SQLException e) {
