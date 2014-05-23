@@ -91,16 +91,20 @@ public class DataFrame extends JFrame{
 						}
 						@SuppressWarnings("unchecked")
 						Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(row);//获取删除行内容
+						DataFrame.model.removeRow(row);
+						
+						
 						Vector<String> delData = new Vector<>();
 						for(int i = 1; i < getData.size(); i++){//去掉编号
 							delData.add(getData.get(i));
 						}
-						DataFrame.model.removeRow(row);
 						try {
 							new OperateFile().reviseFile(FileLoad.dataFile, delData, null);
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
+						
+						
 					}
 				}
 			}

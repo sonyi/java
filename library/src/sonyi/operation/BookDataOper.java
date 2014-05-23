@@ -49,14 +49,12 @@ public class BookDataOper {
 		Connection conn = Conn.getConnection();
 		PreparedStatement pst = null;
 		try {
-			pst = (PreparedStatement) conn.prepareStatement("insert into booksdata(bname,bauth,bsum) valuse(?,?,?)");
+			pst = (PreparedStatement) conn.prepareStatement("insert into booksdata (bname,bauth,bsum) values (?,?,?)");
 			pst.setString(1, v.get(1));
 			pst.setString(2, v.get(2));
 			pst.setInt(3, Integer.parseInt(v.get(3)));
-			pst.addBatch();
-			
 			System.out.println(v.get(1) + "-------------------------");
-			//pst.executeBatch();
+			pst.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

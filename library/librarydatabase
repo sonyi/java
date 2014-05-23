@@ -26,7 +26,7 @@ insert into booksData(bname,bauth,bsum) values('历史的经验','南怀瑾',17);
 insert into booksData(bname,bauth,bsum) values('java编程思想','埃克尔',4);
 insert into booksData(bname,bauth,bsum) values('毕业了，却开始怀念','丁一晨',14);
 insert into booksData(bname,bauth,bsum) values('这个历史挺靠谱','袁腾飞',18);
-
+"insert into booksdata (bname,bauth,bsum) values (?,?,?)"
 
 
 

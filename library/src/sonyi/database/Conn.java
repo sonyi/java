@@ -18,6 +18,7 @@ public class Conn {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = (Connection) DriverManager.getConnection(url, user, password);
+			System.out.println("连接成功-----" + conn);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -25,7 +26,7 @@ public class Conn {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(conn);
+	
 		return conn;
 	}
 	
