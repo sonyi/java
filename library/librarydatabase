@@ -21,7 +21,7 @@ create table booksData(
 		bsum int default 0
 	);
 	
-insert into booksData(bid,bname,bauth,bsum) values(1,'蒋介石与现代中国','陶涵',12);
+insert into booksData(bid,bname,bauth,bsum) values(5,'蒋介石与现代中国','陶涵',12);
 insert into booksData(bid,bname,bauth,bsum) values(2,'历史的经验','南怀瑾',17);
 insert into booksData(bid,bname,bauth,bsum) values(3,'java编程思想','埃克尔',4);
 insert into booksData(bid,bname,bauth,bsum) values(4,'毕业了，却开始怀念','丁一晨',14);

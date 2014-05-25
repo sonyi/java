@@ -2,8 +2,6 @@ package sonyi.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,9 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import sonyi.database.OperateFile;
 import sonyi.operation.UserOper;
-import sonyi.util.FileLoad;
 
 public class UserFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -87,20 +83,5 @@ public class UserFrame extends JFrame{
 	
 	public void closeFrame(){
 		this.dispose();
-	}
-	
-	public boolean checkPassword(String name,String password){
-		Vector<String> user = new Vector<>();
-		user.add(name);
-		user.add(password);
-		try {
-			Vector<Vector<String>> userList = new OperateFile().readOperate(FileLoad.file);
-			if(userList.contains(user)){
-				return true;
-			}	
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 }

@@ -21,8 +21,10 @@ public class BookDataOper {
 		System.out.println("vector:" + v);
 		try {
 			if(queryCondition != null && queryText != null){
-				System.out.println("vector-----2:" + v);
+				//System.out.println("vector---22222222222222--2:" + v);
+				
 				if(queryCondition.equals("书名")){
+					//System.out.println("vector-----2:" + v);
 					pst = conn.prepareStatement("select * from booksdata where bname like ?");
 				}else if(queryCondition.equals("作者")){
 					pst = conn.prepareStatement("select * from booksdata where bauth like ?");
@@ -49,7 +51,7 @@ public class BookDataOper {
 				v.add(name);
 				v.add(auth);
 				v.add(count);
-				//System.out.println("vector:" + v);
+				System.out.println("vector:" + v);
 				vector.add(v);
 			}
 			

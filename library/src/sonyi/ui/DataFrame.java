@@ -1,8 +1,6 @@
 package sonyi.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -112,13 +110,20 @@ public class DataFrame extends JFrame{
 						@SuppressWarnings("unchecked")
 						Vector<String> getData = (Vector<String>)DataFrame.model.getDataVector().get(row);//获取删除行内容
 						bdo.deleteData(getData);
-						DataFrame.model.removeRow(row);
+						model.removeRow(row);
+						int index = Integer.parseInt(getData.get(0));
 						//System.out.println("row------" + row);
-						for(int i = row; i < table.getRowCount(); i++){//删除时改变删除行之后的编号(编号减一)
-							DataFrame.model.setValueAt(i+1+"", i, 0);
-							bdo.changeIndex(i+2);
+						if(table.getRowCount() == data.size())
+							for(int i = index; i <= table.getRowCount(); i++){//删除时改变删除行之后的编号(编号减一)
+								model.setValueAt(i+"", i-1, 0);
+								bdo.changeIndex(i+1);
+							}
+						}else {
+							//for(int i = index; i <= data.size(); i++){		
+//							}
 						}
-					}
+					
+					
 				}
 			}
 		});
@@ -135,9 +140,11 @@ public class DataFrame extends JFrame{
 				if(comText.equals("") || sText.equals("")){
 					JOptionPane.showMessageDialog(null, "查询条件为空！");
 				}else {
-					data = bdo.getdata(comText, sText);
-				}
-				
+					Vector<Vector<String>> v = new Vector<Vector<String>>();
+					v = bdo.getdata(comText, sText);
+					//System.out.println(data);
+					model.setDataVector(v, names);
+				}	
 			}
 		});
 	}

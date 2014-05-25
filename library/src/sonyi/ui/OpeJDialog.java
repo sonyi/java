@@ -144,8 +144,17 @@ public class OpeJDialog extends JDialog{
 		String authText = auth.getText();
 		String countText = count.getText();
 		
+		if(titleText.length() >45 || authText.length() > 25 || countText.length() > 20){//判断输入信息是否够长
+			JOptionPane.showMessageDialog(null, "输入信息超长");
+			return null;
+		}
+		
 		try {
-			Integer.parseInt(countText);//判断输入格式是否正确
+			int i = Integer.parseInt(countText);//判断输入格式是否正确
+			if(i < 0){
+				JOptionPane.showMessageDialog(null, "藏书不能为负数！");
+				return null;
+			}
 		} catch (Exception e) {		
 			JOptionPane.showMessageDialog(null, "藏书必须为数字，输入有误！");
 			return null;
